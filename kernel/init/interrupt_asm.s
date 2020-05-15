@@ -25,14 +25,16 @@ pre_handle:
 	pushad               ;压入八个32位
 	mov ecx,[ss:esp+32]
 	mov ebx,eax
-	mov ax,ss
+	mov ax,es          ;进入时ss已经被切换了
+	and eax,0x0000FFFF
+	push eax
+	mov ax,fs          
 	and eax,0x0000FFFF
 	push eax
 	mov ax,gs
 	and eax,0x0000FFFF
 	push eax
-	mov ax,KERN_DATA_SELECTOR
-	mov ss,ax
+	mov ax,KERN_DATA_SELECTOR    ;不包含ss
 	mov es,ax
 	mov fs,ax
 	mov ax,KERN_VGA_SELECTOR
@@ -44,9 +46,9 @@ pre_handle:
 	pop eax
 	mov gs,ax
 	pop eax
-	mov ss,ax
-	mov es,ax
 	mov fs,ax
+	pop eax
+	mov es,ax
 	popad
 	add esp,8
 	mov al,0x20
