@@ -25,7 +25,7 @@ uint32_t block_count_array[12]={0};
 //page_array用来存放页描述结构体的数组 使用动态分配的方式可以节约200KB软盘空间(对我1.44M的可怜空间来说 这已经很多了)
 //注意：不要放在0x0地址 不然会与NULL冲突（他喵的 这bug我找了几个小时）并且选择一个合适的对齐 便于
 //由于page_array放置地址问题 最大支持不到4GB 过大的数组会扩展到破坏内核空间(可修改存放在1M以上)
-pm_page_t *page_array = (pm_page_t*)0x00000100; 
+pm_page_t *page_array = (pm_page_t*)0xC0000100;       
 pm_multi_link_t * MULTI_LINK;   //用大写来表示很重要 并且定义为结构体指针，用->更加美观了～
 pm_multi_link_t multi_link_struct={NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL};
 pm_page_t * SINGLE_LINK = NULL ;
@@ -561,7 +561,7 @@ void pmm_show_page_count(){
 //为内核entry使用的pmm管理模块初始化函数
 void pmm_init(){
 	printk("0x%h\n",kern_start);
-	printk("0x%h\n",kern_end);
+	printk("0x%d\n",kern_end);
 
 	//一定要注意 由于分页必须4k对齐 所以此处的物理页管理必须与虚拟页相同 都要4K对齐
 	pmm_page_start = ((((uint32_t)kern_end >> 12))+1)<<12;

@@ -11,12 +11,13 @@ uint32_t get_eflags();
 extern TCB_t * cur_tcb;
 extern TCB_t main_TCB;
 void kern_entry(){
-
 	void func(void* args);
-
 	vga_init();
 	pmm_init();
 	idt_init();
+	printk("0x%h",0xC0100000);
+	while(True){
+	}
 	// pm_alloc_t re = pmm_alloc_pages(1);
 	// printk("addr:0x%h,size:%d,state:%d\n",re.addr,re.size,(int)re.state);
 	// pmm_show_page_count();

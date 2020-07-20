@@ -1,7 +1,7 @@
 #include "string.h"
 
 //进制转换的辅助函数
-static int func(char *s,int n,int i)          //n表示输入的数 i表示转化的进制
+static int func(char *s,int n,uint32_t i)          //n表示输入的数 i表示转化的进制
 {
     char bit[]={"0123456789ABCDEF"};
     int len;

@@ -4,7 +4,7 @@
 #include "port.h"
 static uint8_t tab_length=4;            //定义tab空格数
 // VGA 的显示缓冲的起点是 0xB8000
-static uint8_t *video_memory = (uint8_t *)0xB8000;
+static uint8_t *video_memory = (uint8_t *)0xC00B8000;
 //光标位置
 static uint8_t cursor_x = 0;
 static uint8_t cursor_y = 0;

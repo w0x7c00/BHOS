@@ -1,16 +1,71 @@
 ;/boot/boot.s
 ;edit:2020/1/26
 ;by:不吃香菜的大头怪
-
+;注意：临时页表只能使用到4M的内核
 %include "./boot/boot.inc" 
 ;这三个双字为GRUB加载器识别MagicNumber 以及配置信息（可以不用理解）
-dd 0x1badb002  
-dd 0x3   	
-dd -(0x1badb002+0x3)      
+section .init.text       ;这个节在文件开头所以要标示一下
+dd 0x1badb002
 
+dd 0x3   	
+dd -(0x1badb002+0x3)
+
+temp_mboot_ptr:      ;暂存ebx
+    dd 0x0
+[BITS 32]        ;GRUB已经帮助我们进入了保护模式 所以是可以使用32编译的
+
+[GLOBAL boot_start]
+boot_start:        ;此处是内核加载后调用的第一个函数
+    cli
+    mov [temp_mboot_ptr],ebx
+    mov esp,INIT_STACK_TOP
+    and esp, 0xFFFFFFF0  ;16字节对齐
+    call set_page
+    mov ebx,[temp_mboot_ptr]
+    mov eax,temp_dir_table
+    mov cr3,eax
+    mov eax,cr0
+    or eax,0x80000000
+    mov cr0,eax
+    jmp boot_start_after_set_paging
+set_page:
+    mov eax,8191      ;2*4096-1
+    .clear_mem:             ;重置页表以及页目录表的内存空间
+    mov  byte[temp_dir_table+eax],0
+    dec eax
+    jnz .clear_mem
+    mov byte[temp_dir_table],0
+
+    .create_pde:            ;创建页目录表
+    mov eax,temp_page_table       
+    or eax,PG_US_S|PG_RW_W|PG_P     ;eax存放了一张页表信息    也就是一条页目录项
+    mov [temp_dir_table+0xc00],eax      ;构建页目录项
+    mov [temp_dir_table],eax    ;起始位置的4MB映射到对应的4MB（虚拟地址与物理地址重合）
+    
+    mov eax,1023
+    .create_pte:              ;创建一条页目录项对应的页表
+    mov ebx,eax
+    sal ebx,12
+    and ebx,0xFFFFF000
+    or ebx,PG_US_U|PG_RW_W|PG_P
+    mov [temp_page_table+eax*4],ebx
+    dec eax
+    jnz .create_pte
+    mov ebx,0
+    or ebx,PG_US_S|PG_RW_W|PG_P
+    mov [temp_page_table],ebx
+    ret
+section .init.data align=4096            ;依据我的测试结果来看   section是默认4096对齐的
+;需要4K对齐
+temp_dir_table:
+ resb 4096
+temp_page_table:
+resb 4096          ;只能映射前4M的内核空间
+init_stack:
+resb 1024      ;1024B暂用栈
+INIT_STACK_TOP equ $-1
 [BITS 32]   ;由于GRUB在加载内核前进入保护模式，所以要32位编译   
-section .text
-[GLOBAL boot_start]    
+section .text    
 [GLOBAL mboot_ptr]  
 [EXTERN kern_entry]
    GDT_BASE:   dd    0x00000000 
@@ -37,8 +92,9 @@ section .text
    gdt_ptr  dw  GDT_LIMIT 
         	dd  GDT_BASE
 ;boot开始！
-boot_start:
-    cli                        ;关闭外中断        
+boot_start_after_set_paging:        ;此处修改了函数名     在设置好页表后调用此函数
+    cli                        ;关闭外中断
+    mov ebx,[temp_mboot_ptr]     ;此处将暂存的mboot信息取出    但是一定要注意：必须要前4MB的物理-虚拟内存映射才能够使用
     mov [mboot_ptr], ebx ; GRUB加载内核后会将mutiboot信息地址存放在ebx中
     ;-----------------   准备进入保护模式   -------------------
 ;1 打开A20
@@ -74,7 +130,7 @@ section .data
 mboot_ptr:        
     dd 0x0        
 
-section .bss             ; 未初始化的数据段从这里开始
+section .bss             ; 未初始化的数据段从这里开始    注意bss段是不占用存储器空间的，是在程序加载后才在内存中分配的
 stack:
     resb 0x80000        ; 512KB的内核栈 (应该够了吧,不够自己改)
 STACK_TOP equ $-1      

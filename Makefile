@@ -50,8 +50,23 @@ run:
 .PHONY:clean
 clean:
 	rm $(S_OBJECTS) $(C_OBJECTS) kernel.elf
+
 .PHONY:debug
 debug:
 	qemu -S -s -fda $(target_floppy) -boot a &
+	sleep 1;gdb -x gdb.script
+
+
+.PHONY:tui_debug
+tui_debug:
+	qemu -S -s -fda $(target_floppy) -boot a &
+	sleep 1;gdb -tui -x gdb.script
+
+.PHONY:simple_debug
+simple_debug:
+	qemu -S -s -fda $(target_floppy) -boot a &
 	sleep 1
-	gdb -x gdb.script
+
+.PHONY:gdbgui
+gdbgui:
+	qemu -S -s -fda $(target_floppy) -boot a & gdbgui -r 127.0.0.1:1234  --gdb-args="-x gdb.script"
