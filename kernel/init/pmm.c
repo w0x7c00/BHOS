@@ -560,8 +560,8 @@ void pmm_show_page_count(){
 
 //为内核entry使用的pmm管理模块初始化函数
 void pmm_init(){
-	printk("0x%h\n",kern_start);
-	printk("0x%d\n",kern_end);
+	printk("kern_start:0x%h\n",kern_start);
+	printk("kern_end:0x%h\n",kern_end);
 
 	//一定要注意 由于分页必须4k对齐 所以此处的物理页管理必须与虚拟页相同 都要4K对齐
 	pmm_page_start = ((((uint32_t)kern_end >> 12))+1)<<12;

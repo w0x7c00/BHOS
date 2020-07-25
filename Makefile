@@ -16,8 +16,13 @@ ld_pars = -T kernel.ld -m elf_i386 -nostdlib
 #目标软盘
 target_floppy = floppy.img
 
+#目标硬盘
+target_hd = hd.img
+#目标回环设备
+target_loop = 23
+
 #过程
-all: $(S_OBJECTS) $(C_OBJECTS) link copykern
+all: $(S_OBJECTS) $(C_OBJECTS) link mt copykern umt
 
 .c.o:
 	gcc $(gcc_pars) $< -o $@
@@ -31,21 +36,25 @@ link:
 
 .PHONY:copykern
 copykern:
-	sudo mount $(target_floppy) /mnt/kernel/
-	sudo cp kernel.elf /mnt/kernel/
-	sudo umount /mnt/kernel/
+	sudo cp kernel.elf /mnt/kernel
 	
 .PHONY:mt
 mt:
-	sudo mount $(target_floppy) /mnt/kernel
+	#sudo mount $(target_floppy) /mnt/kernel
+	sudo losetup /dev/loop$(target_loop) $(target_hd) -o 32256
+	sudo mount /dev/loop$(target_loop) /mnt/kernel -t ext3 -o loop
+	
 
 .PHONY:umt
 umt:
 	sudo umount /mnt/kernel
+	sudo losetup -d /dev/loop$(target_loop)
+
 
 .PHONY:run
 run:
-	qemu -fda $(target_floppy) -boot a
+	#qemu -fda $(target_floppy) -boot a
+	qemu -hda $(target_hd) -boot a
 
 .PHONY:clean
 clean:
@@ -53,20 +62,20 @@ clean:
 
 .PHONY:debug
 debug:
-	qemu -S -s -fda $(target_floppy) -boot a &
+	qemu -S -s -hda $(target_hd) -boot a &
 	sleep 1;gdb -x gdb.script
 
 
 .PHONY:tui_debug
 tui_debug:
-	qemu -S -s -fda $(target_floppy) -boot a &
+	qemu -S -s -hda $(target_hd) -boot a &
 	sleep 1;gdb -tui -x gdb.script
 
 .PHONY:simple_debug
 simple_debug:
-	qemu -S -s -fda $(target_floppy) -boot a &
+	qemu -S -s -hda $(target_hd) -boot a &
 	sleep 1
 
 .PHONY:gdbgui
 gdbgui:
-	qemu -S -s -fda $(target_floppy) -boot a & gdbgui -r 127.0.0.1:1234  --gdb-args="-x gdb.script"
+	qemu -S -s -hda $(target_hd) -boot a & gdbgui -r 127.0.0.1:1234  --gdb-args="-x gdb.script"
