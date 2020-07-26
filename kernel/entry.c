@@ -4,6 +4,8 @@
 #include "init.h"
 #include "pmm.h"
 #include "threads.h"
+#include "bitmap.h"
+#include "vmm.h"
 void clear_screen();
 void kputc(char);
 void screen_uproll_once();
@@ -15,7 +17,8 @@ void kern_entry(){
 	vga_init();
 	pmm_init();
 	idt_init();
-	printk("0x%h",0xC0100000);
+	printk("0x%h\n\n",0xC0100000);
+	vmm_init();
 	while(True){
 	}
 	// pm_alloc_t re = pmm_alloc_pages(1);

@@ -16,5 +16,7 @@ extern uint32_t kern_start;
 extern uint32_t kern_end;
 extern uint32_t kern_dir_table;   //内核页目录物理地址
 extern uint32_t kern_page_table;     //内核页表起始物理地址
+extern uint32_t kern_bitmap;    //内核虚拟空间管理位图虚拟地址
 
+void vmm_init();
 #endif

@@ -14,6 +14,13 @@ struct bitmap{
 } bitmap;
 
 
+void bitmap_init_mem(bitmap bm);
+uint32_t bitmap_alloc_one_page(bitmap bm,uint32_t target);
+void bitmap_release_one_page(bitmap bm,uint32_t target);
+uint32_t bitmap_alloc(bitmap bm);
+
+void bitmap_test();
+
 
 
 #endif

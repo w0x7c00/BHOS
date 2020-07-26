@@ -172,9 +172,10 @@ section .data
 mboot_ptr:        
     dd 0x0        
 
+[GLOBAL kern_bitmap]
 section .bss             ; 未初始化的数据段从这里开始    注意bss段是不占用存储器空间的，是在程序加载后才在内存中分配的
 
-kern_bit_map:
+kern_bitmap:
     ;内核空间1GB   需要1024*1024*1KB=1024*256*4KB，所以一共有1024*256bit = 1024*32B=32KB
     resb  0x8000;32*1024   
 stack:
