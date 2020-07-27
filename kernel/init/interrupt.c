@@ -57,6 +57,14 @@ void timer_server_func(void *args){
 	}
 }
 
+//cr2 保存引起缺页的线性地址
+void get_cr2();
+extern uint32_t _CR2;
+void lost_page_func(){
+	get_cr2();
+	printk("INT 14:lost page--0x%h\n",_CR2);
+}
+
 extern void load_idt(uint32_t);     //声明idt装载使用的函数(定义在interrupt_asm.s中)
 //要注意手动发送EOI
 void isr0();
@@ -129,7 +137,8 @@ void idt_init(){
 	set_int_disc(30,(uint32_t)isr30,kern_cs,default_inf);
 	set_int_disc(31,(uint32_t)isr31,kern_cs,default_inf);
 	set_int_disc(32,(uint32_t)isr32,kern_cs,default_inf);
-	registe_interrupt(32,timer_server_func);
+	//registe_interrupt(32,timer_server_func);
+	registe_interrupt(14,lost_page_func);
 	lidt_target.limit = sizeof(interrupt_discripter_t)*256;
 	lidt_target.base = (uint32_t)&idt_entries;
 	timer_init(1000);        

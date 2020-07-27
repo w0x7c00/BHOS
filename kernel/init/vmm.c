@@ -21,6 +21,7 @@ static void kern_vmm_init(){
     kern_vmm_pool.target_addr_header = 0xC0000000;   //内核空间起始地址
     kern_vmm_pool.length = 0x8000;     //总共1GB空间
     kern_vmm_pool.vaddr_header = kern_bitmap;
+
     bitmap_init_mem(kern_vmm_pool);
     int page_used = get_kern_used_page_count();
     if(page_used>1024){
@@ -30,7 +31,7 @@ static void kern_vmm_init(){
         }
     }
     for(int i = 0; i<page_used ;i++){
-        bitmap_alloc(kern_vmm_pool); //将内核空间在内存池中置为繁忙   此处可做性能优化
+        uint32_t rem = bitmap_alloc(kern_vmm_pool); //将内核空间在内存池中置为繁忙   此处可做性能优化
     }    
     //将内核虚拟内存管理页（最后1024页）在内存池中置为繁忙
     //1024页占用128字节 所以要将bitmap最后128字节清零
@@ -58,11 +59,48 @@ static uint32_t vmm_get_page_vaddr_by_target(uint32_t target){
 // 中间十位表示在1024项页目录表中的索引
 //最后12位表示在页表中的索引（每张页表1024项 共4096B 也就是12位可表达的最大范围）
 uint32_t vmm_kern_alloc_one_page(uint32_t target){
-        
+    uint32_t vaddr_get=bitmap_alloc_one_page(kern_vmm_pool,target);
+    if(vaddr_get == BITMAP_RETURN_ERRO){
+        printk("1\n");
+        return VMM_ALLOC_ERRO;
+    }            
+    else{
+        uint32_t page_desc_vaddr = vmm_get_page_vaddr_by_target(target);
+        pm_alloc_t phy_page = pmm_alloc_one_page();
+        if(phy_page.state == 0){
+            //没有可用的物理页
+        printk("2\n"); 
+            return VMM_ALLOC_ERRO;
+        }
+        //修改页表
+        *((uint32_t*)page_desc_vaddr) = (phy_page.addr&0xFFFFF000)+PAGE_DESC_RW_W+PAGE_DESC_US_S+PAGE_DESC_G+PAGE_DESC_P;
+        return target;
+    }
+    
 }
 
 uint32_t vmm_kern_alloc(){
-
+    uint32_t target = bitmap_alloc(kern_vmm_pool);
+    if (target == BITMAP_RETURN_ERRO){
+        return VMM_ALLOC_ERRO;
+    }
+    uint32_t vaddr_get = target;
+    if(vaddr_get == BITMAP_RETURN_ERRO){
+        printk("1\n");
+        return VMM_ALLOC_ERRO;
+    }            
+    else{
+        uint32_t page_desc_vaddr = vmm_get_page_vaddr_by_target(target);
+        pm_alloc_t phy_page = pmm_alloc_one_page();
+        if(phy_page.state == 0){
+            //没有可用的物理页
+        printk("2\n"); 
+            return VMM_ALLOC_ERRO;
+        }
+        //修改页表
+        *((uint32_t*)page_desc_vaddr) = (phy_page.addr&0xFFFFF000)+PAGE_DESC_RW_W+PAGE_DESC_US_S+PAGE_DESC_G+PAGE_DESC_P;
+        return target;
+    }
 }
 
 void vmm_kern_release_one_page(uint32_t target){
@@ -74,5 +112,7 @@ static void user_vmm_init(){
 }
 
 void vmm_test(){
-
+    vmm_init();
+    uint32_t re = vmm_kern_alloc();
+    printk("get:0x%h\n",re);
 }

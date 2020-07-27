@@ -20,7 +20,7 @@ uint32_t bitmap_alloc_one_page(bitmap bm,uint32_t target){
     uint32_t vaddr_header = bm.vaddr_header;
     uint32_t target_addr_header=bm.target_addr_header;
     target = target&0xFFFFF000;
-    uint32_t max_addr = target_addr_header+lenght*8*PAGE_SIZE;
+    uint32_t max_addr = target_addr_header-1+lenght*8*PAGE_SIZE;   //必须要-1 否则可能造成max_addr溢出为0
     if(target>=target_addr_header&&target<max_addr){
         int page_num = (target-target_addr_header)/PAGE_SIZE;
         int i = page_num/8;
@@ -49,7 +49,7 @@ void bitmap_release_one_page(bitmap bm,uint32_t target){
     uint32_t vaddr_header = bm.vaddr_header;
     uint32_t target_addr_header=bm.target_addr_header;
     target = target&0xFFFFF000;
-    uint32_t max_addr = target_addr_header+lenght*8*PAGE_SIZE;
+    uint32_t max_addr = target_addr_header-1+lenght*8*PAGE_SIZE;
     if(target>=target_addr_header&&target<max_addr){
         int page_num = (target-target_addr_header)/PAGE_SIZE;
         int i = page_num/8;

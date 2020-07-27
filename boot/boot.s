@@ -85,8 +85,6 @@ set_page:
     ret
 
 section .init.data align=4096            ;依据我的测试结果来看   section是默认4096对齐的
-[GLOBAL kern_dir_table]
-[GLOBAL kern_page_table]
 ;需要4K对齐
 ;内核页目录表
 kern_dir_table:
@@ -99,7 +97,6 @@ resb 1024      ;1024B暂用栈
 INIT_STACK_TOP equ $-1
 [BITS 32]   ;由于GRUB在加载内核前进入保护模式，所以要32位编译   
 section .text    
-[GLOBAL mboot_ptr]  
 [EXTERN kern_entry]
    GDT_BASE:   dd    0x00000000 
            	   dd    0x00000000
@@ -163,20 +160,28 @@ boot_start_after_set_paging:        ;此处修改了函数名     在设置好�
   	mov gs,ax
     mov esp, STACK_TOP      
     and esp, 0xFFFFFFF0  ;16字节对齐
-    mov ebp, 0           
+    mov ebp, 0         
+    mov eax,kern_bitmap_block
+    mov [kern_bitmap],eax
 ;进入内核主函数    
     call kern_entry                    
     jmp dword $          ;防止意外退出内核
 
 section .data
+[GLOBAL mboot_ptr]  
+[GLOBAL kern_bitmap]
+kern_bitmap:
+    dd 0x0
 mboot_ptr:        
     dd 0x0        
+tmm:
+    dd 0x12
 
-[GLOBAL kern_bitmap]
 section .bss             ; 未初始化的数据段从这里开始    注意bss段是不占用存储器空间的，是在程序加载后才在内存中分配的
 
-kern_bitmap:
+kern_bitmap_block:
     ;内核空间1GB   需要1024*1024*1KB=1024*256*4KB，所以一共有1024*256bit = 1024*32B=32KB
+    dd 0x0
     resb  0x8000;32*1024   
 stack:
     resb 0x80000        ; 512KB的内核栈 (应该够了吧,不够自己改)

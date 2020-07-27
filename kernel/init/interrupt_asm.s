@@ -98,3 +98,12 @@ load_idt:
 	mov eax, [esp+4]  ; 参数存入 eax 寄存器
     lidt [eax]        ; 加载到 IDTR
     ret
+
+[GLOBAL get_cr2]
+[GLOBAL _CR2]
+get_cr2:
+	mov eax,cr2
+	mov [_CR2],eax
+	ret
+_CR2:
+	dd 0x00
