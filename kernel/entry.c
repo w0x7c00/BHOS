@@ -13,25 +13,16 @@ uint32_t get_eflags();
 extern TCB_t * cur_tcb;
 extern TCB_t main_TCB;
 void kern_entry(){
-	void func(void* args);
+	//void func(void* args);
+	vga_init();	
 	idt_init();
 	asm volatile("sti");
-	vga_init();
-
+    *((char*)0xC1000000) = 'a';
 	pmm_init();
-
-	printk("1");
-	printk("1");
-
-	printk("1");
-	printk("1");
-	printk("1");
-
+	vmm_init();
 	vmm_test();
-	
-	while (1)
-	{
-		/* code */
+	while (1){
+		
 	}
 	// pm_alloc_t re = pmm_alloc_pages(1);
 	// printk("addr:0x%h,size:%d,state:%d\n",re.addr,re.size,(int)re.state);

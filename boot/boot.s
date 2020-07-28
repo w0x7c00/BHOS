@@ -23,6 +23,7 @@ boot_start:        ;此处是内核加载后调用的第一个函数
     call set_page
     mov ebx,[temp_mboot_ptr]
     mov eax,kern_dir_table
+    and eax,0xFFFFF000
     mov cr3,eax
     mov eax,cr0
 
@@ -31,6 +32,13 @@ boot_start:        ;此处是内核加载后调用的第一个函数
     mov cr0,eax
     jmp dword SELECTOR_CODE:boot_start_after_set_paging
 
+[GLOBAL reload_kern_page]
+reload_kern_page:
+    mov eax,kern_dir_table
+    and eax,0xFFFFF000
+    mov cr3,eax
+    mov eax,cr0
+    ret
 set_page:
     mov eax,4095      ;4096-1
     .clear_dir_table:             ;重置页目录表内存空间
@@ -50,9 +58,10 @@ set_page:
     mov cx,255  ;256-1
     .create_pde:            ;创建临时页目录项与页表对应关系
     ;mov eax,kern_page_table+ecx*4096     ;1024*4
-    mov ebx,kern_page_table
+    mov eax,0
     mov ax,4096
     mul  cx      ;结果在eax
+    add eax,kern_page_table
     or eax,PG_US_S|PG_RW_W|PG_P     ;eax存放了一张页表信息    也就是一条页目录项
     mov [kern_dir_table+ecx*4+0xc00],eax
     dec cx
@@ -64,7 +73,7 @@ set_page:
 
 
     mov eax,1023
-    .create_pte:              ;只创建第一个创建一条页目录项对应的页表
+    .create_pte:              
     mov ebx,eax
     sal ebx,12
     and ebx,0xFFFFF000
@@ -163,6 +172,10 @@ boot_start_after_set_paging:        ;此处修改了函数名     在设置好�
     mov ebp, 0         
     mov eax,kern_bitmap_block
     mov [kern_bitmap],eax
+    mov eax,kern_dir_table
+    mov [kern_dir_table_paddr],eax
+    mov eax,kern_page_table
+    mov [kern_page_table_paddr],eax
 ;进入内核主函数    
     call kern_entry                    
     jmp dword $          ;防止意外退出内核
@@ -170,12 +183,17 @@ boot_start_after_set_paging:        ;此处修改了函数名     在设置好�
 section .data
 [GLOBAL mboot_ptr]  
 [GLOBAL kern_bitmap]
+[GLOBAL kern_dir_table_paddr]
+[GLOBAL kern_page_table_paddr]
 kern_bitmap:
     dd 0x0
 mboot_ptr:        
     dd 0x0        
-tmm:
-    dd 0x12
+
+kern_dir_table_paddr:
+    dd 0x0
+kern_page_table_paddr:
+    dd 0x0
 
 section .bss             ; 未初始化的数据段从这里开始    注意bss段是不占用存储器空间的，是在程序加载后才在内存中分配的
 

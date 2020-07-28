@@ -40,7 +40,7 @@ static void registe_interrupt(int int_no,int_server_func_t target_func){
 }
 
 void default_server_func(void *args){
-	printk("Default Int server function!\n");
+	//printk("Default Int server function!\n");
 }
 
 
@@ -60,9 +60,9 @@ void timer_server_func(void *args){
 //cr2 保存引起缺页的线性地址
 void get_cr2();
 extern uint32_t _CR2;
-void lost_page_func(){
+void page_fault_func(){
 	get_cr2();
-	printk("INT 14:lost page--0x%h\n",_CR2);
+	printk("INT 14:Page Fault---0x%h\n",_CR2);
 }
 
 extern void load_idt(uint32_t);     //声明idt装载使用的函数(定义在interrupt_asm.s中)
@@ -138,10 +138,44 @@ void idt_init(){
 	set_int_disc(31,(uint32_t)isr31,kern_cs,default_inf);
 	set_int_disc(32,(uint32_t)isr32,kern_cs,default_inf);
 	//registe_interrupt(32,timer_server_func);
-	registe_interrupt(14,lost_page_func);
+	registe_interrupt(0,default_server_func);
+	registe_interrupt(1,default_server_func);
+	registe_interrupt(2,default_server_func);
+	registe_interrupt(3,default_server_func);
+	registe_interrupt(4,default_server_func);
+	registe_interrupt(5,default_server_func);
+	registe_interrupt(6,default_server_func);
+	registe_interrupt(7,default_server_func);
+	registe_interrupt(8,default_server_func);
+	registe_interrupt(9,default_server_func);
+	registe_interrupt(10,default_server_func);
+	registe_interrupt(11,default_server_func);
+	registe_interrupt(12,default_server_func);
+	registe_interrupt(13,default_server_func);
+	registe_interrupt(14,default_server_func);
+	registe_interrupt(15,default_server_func);
+	registe_interrupt(16,default_server_func);
+	registe_interrupt(17,default_server_func);
+	registe_interrupt(18,default_server_func);
+	registe_interrupt(19,default_server_func);
+	registe_interrupt(20,default_server_func);
+	registe_interrupt(21,default_server_func);
+	registe_interrupt(22,default_server_func);
+	registe_interrupt(23,default_server_func);
+	registe_interrupt(24,default_server_func);
+	registe_interrupt(25,default_server_func);
+	registe_interrupt(26,default_server_func);
+	registe_interrupt(27,default_server_func);
+	registe_interrupt(28,default_server_func);
+	registe_interrupt(29,default_server_func);
+	registe_interrupt(30,default_server_func);
+	registe_interrupt(31,default_server_func);
+	registe_interrupt(32,default_server_func);
+	
+	registe_interrupt(14,page_fault_func);
 	lidt_target.limit = sizeof(interrupt_discripter_t)*256;
 	lidt_target.base = (uint32_t)&idt_entries;
-	timer_init(1000);        
+	//timer_init(1000);        
 	load_idt((uint32_t)&lidt_target);
 }
 void int_func_route(int int_no,void * args){

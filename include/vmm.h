@@ -16,5 +16,9 @@
 extern uint8_t kern_start[];
 extern uint8_t kern_end[];
 extern uint32_t kern_bitmap;    //内核虚拟空间管理位图虚拟地址
+extern uint32_t kern_dir_table_paddr;
+extern uint32_t kern_page_table_paddr;
+void reload_kern_page();
 void vmm_init();
+void vmm_test();
 #endif
