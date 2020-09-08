@@ -155,8 +155,6 @@ void vmm_test(){
     *((char*)0xC1000000) = 'a';
     vmm_kern_release_one_page(0xC1000000);
     *((char*)0xC1000000) = 'a';
-    //102023
-    //001003
     printk("\n0x%h\n",*((uint32_t*)(get_pde(0xC0000000))));
     printk("\n0x%h\n",*((uint32_t*)(get_pde(0xC0400000))));
     printk("\n0x%h\n",*((uint32_t*)(get_pde(0xC0800000))));

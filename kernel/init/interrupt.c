@@ -137,7 +137,6 @@ void idt_init(){
 	set_int_disc(30,(uint32_t)isr30,kern_cs,default_inf);
 	set_int_disc(31,(uint32_t)isr31,kern_cs,default_inf);
 	set_int_disc(32,(uint32_t)isr32,kern_cs,default_inf);
-	//registe_interrupt(32,timer_server_func);
 	registe_interrupt(0,default_server_func);
 	registe_interrupt(1,default_server_func);
 	registe_interrupt(2,default_server_func);
@@ -170,12 +169,13 @@ void idt_init(){
 	registe_interrupt(29,default_server_func);
 	registe_interrupt(30,default_server_func);
 	registe_interrupt(31,default_server_func);
-	registe_interrupt(32,default_server_func);
+	//registe_interrupt(32,default_server_func);
 	
 	registe_interrupt(14,page_fault_func);
+	registe_interrupt(32,timer_server_func);
 	lidt_target.limit = sizeof(interrupt_discripter_t)*256;
 	lidt_target.base = (uint32_t)&idt_entries;
-	//timer_init(1000);        
+	timer_init(1000);        
 	load_idt((uint32_t)&lidt_target);
 }
 void int_func_route(int int_no,void * args){

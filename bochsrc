@@ -1,0 +1,20 @@
+#设置 Bochs 在运行过程中能够使用的内存，32MB
+megs: 32
+
+#第二步，设置 BIOS 和 VGA BIOS
+romimage: file=/usr/share/bochs/BIOS-bochs-latest
+vgaromimage: file=/usr/share/bochs/VGABIOS-lgpl-latest
+
+#启动盘符 
+boot: disk  #改为从硬盘启动。我们的任何代码都将直接写在硬盘上，所以不会再有读写软盘的操作
+
+#第五步，设置日志文件的输出
+log: bochs.log
+
+#第六步，开启或关闭某些功能
+#下面是关闭鼠标，并打开键盘
+mouse: enabled=0
+keyboard_mapping: enabled=1, map=/usr/share/bochs/keymaps/x11-pc-us.map
+
+# 硬盘设置
+ata0-master: type=disk, path="hd.img"

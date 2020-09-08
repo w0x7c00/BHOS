@@ -3,7 +3,7 @@
 #include "pmm.h"
 #include "printk.h"
 #define TIME_CONT  2 //默认时间片计数
-TCB_t main_TCB;    //主线程TCB
+TCB_t main_TCB;    //内核主线程TCB
 TCB_t* cur_tcb;
 
 void threads_init(){

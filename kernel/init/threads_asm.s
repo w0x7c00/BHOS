@@ -12,7 +12,6 @@ get_eflags:
 [GLOBAL switch_to]
 switch_to:
 	;保存上下文
-	mov [eax+28],esp
 	mov eax,[esp+4]     ;第一个参数 
 	mov [eax],ebp
 	mov [eax+4],ebx
@@ -20,6 +19,7 @@ switch_to:
 	mov [eax+12],edx
 	mov [eax+16],esi
 	mov [eax+20],edi
+	mov [eax+28],esp
 	push ebx
 	mov ebx,eax
 	pushf

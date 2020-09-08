@@ -13,37 +13,36 @@ uint32_t get_eflags();
 extern TCB_t * cur_tcb;
 extern TCB_t main_TCB;
 void kern_entry(){
-	//void func(void* args);
+	void func(void* args);
 	vga_init();	
+	pmm_init();
 	idt_init();
 	asm volatile("sti");
-    *((char*)0xC1000000) = 'a';
-	pmm_init();
 	vmm_init();
 	vmm_test();
 	while (1){
-		
-	}
+		asm volatile("hlt");
+	 }
 	// pm_alloc_t re = pmm_alloc_pages(1);
 	// printk("addr:0x%h,size:%d,state:%d\n",re.addr,re.size,(int)re.state);
 	// pmm_show_page_count();
-	//threads_init();
+	threads_init();
 	//pmm需要在关中断的时候使用
-	//create_thread(1,(thread_function *)func,0,pmm_alloc_one_page().addr,1);
-    // asm volatile ("sti");   //要在主线程加载完后开中断
-	// while(True){
-	// 	asm volatile("cli");
-	// 	printk("A");
-	// 	asm volatile("sti");
-	// }
-    // while(True)
-    // 	asm volatile ("hlt");
+	create_thread(1,(thread_function *)func,0,pmm_alloc_one_page().addr,1);
+    asm volatile ("sti");   //要在主线程加载完后开中断
+	 while(True){
+	 	asm volatile("cli");
+	 	printk("A");
+	 	asm volatile("sti");
+	 }
+     while(True)
+     	asm volatile ("hlt");
 }
 
-// void func(void* args){
-// 	while(True){
-// 		asm volatile("cli");
-// 		printk_color("B",15,0);
-// 		asm volatile("sti");
-// 	}
-// }
+void func(void* args){
+	while(True){
+		asm volatile("cli");
+		printk_color("B",15,0);
+		asm volatile("sti");
+	}
+}

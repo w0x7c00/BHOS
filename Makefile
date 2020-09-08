@@ -79,3 +79,7 @@ simple_debug:
 .PHONY:gdbgui
 gdbgui:
 	qemu -S -s -hda $(target_hd) -boot a & gdbgui -r 127.0.0.1:1234  --gdb-args="-x gdb.script"
+
+.PHONY:bochs
+bochs:
+	bochs -f bochsrc
