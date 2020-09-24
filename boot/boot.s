@@ -177,6 +177,7 @@ boot_start_after_set_paging:        ;此处修改了函数名     在设置好�
     mov eax,kern_page_table
     mov [kern_page_table_paddr],eax
 ;进入内核主函数    
+    cli
     call kern_entry                    
     jmp dword $          ;防止意外退出内核
 
