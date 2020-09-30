@@ -48,6 +48,9 @@ extern TCB_t * cur_tcb;
 
 //时钟中断函数 主要用于线程调度
 void timer_server_func(void *args){
+    //printk("123\n");
+  return ;
+
 	if(cur_tcb->time_left!=0){
 		(cur_tcb->time_left)--;
 		(cur_tcb->time_counter)++;
@@ -60,7 +63,7 @@ void timer_server_func(void *args){
 //cr2 保存引起缺页的线性地址
 void get_cr2();
 extern uint32_t _CR2;
-void page_fault_func(){
+void page_fault_func(void * args){
 	get_cr2();
 	printk("INT 14:Page Fault---0x%h\n",_CR2);
 }
@@ -175,8 +178,9 @@ void idt_init(){
 	registe_interrupt(32,timer_server_func);
 	lidt_target.limit = sizeof(interrupt_discripter_t)*256;
 	lidt_target.base = (uint32_t)&idt_entries;
-	timer_init(1000);        
+	timer_init(1000);
 	load_idt((uint32_t)&lidt_target);
+    asm volatile("sti");
 }
 void int_func_route(int int_no,void * args){
 	int_server_func_list[int_no](args);

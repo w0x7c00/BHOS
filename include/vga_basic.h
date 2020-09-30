@@ -30,4 +30,5 @@ void mov_cursor_by_XY();
 void kputs_color(char *,vga_color_t,vga_color_t);
 void kputs(char *);
 void vga_init();
+void vga_basic_test();
 #endif

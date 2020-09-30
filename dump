@@ -6640,7 +6640,7 @@ c0206951:	89 45 f4             	mov    %eax,-0xc(%ebp)
     if(vaddr_get == BITMAP_RETURN_ERRO){
 c0206954:	83 7d f4 ff          	cmpl   $0xffffffff,-0xc(%ebp)
 c0206958:	75 07                	jne    c0206961 <vmm_kern_alloc_one_page+0x3b>
-        return VMM_ALLOC_ERRO;
+        return KERN_VMM_ALLOC_ERRO;
 c020695a:	b8 ff ff ff ff       	mov    $0xffffffff,%eax
 c020695f:	eb 52                	jmp    c02069b3 <vmm_kern_alloc_one_page+0x8d>
     }            
@@ -6662,7 +6662,7 @@ c0206981:	0f b6 45 ec          	movzbl -0x14(%ebp),%eax
 c0206985:	84 c0                	test   %al,%al
 c0206987:	75 07                	jne    c0206990 <vmm_kern_alloc_one_page+0x6a>
             //没有可用的物理页
-            return VMM_ALLOC_ERRO;
+            return KERN_VMM_ALLOC_ERRO;
 c0206989:	b8 ff ff ff ff       	mov    $0xffffffff,%eax
 c020698e:	eb 23                	jmp    c02069b3 <vmm_kern_alloc_one_page+0x8d>
         }
@@ -6708,7 +6708,7 @@ c02069e3:	89 45 f4             	mov    %eax,-0xc(%ebp)
     if (target == BITMAP_RETURN_ERRO){
 c02069e6:	83 7d f4 ff          	cmpl   $0xffffffff,-0xc(%ebp)
 c02069ea:	75 0a                	jne    c02069f6 <vmm_kern_alloc+0x3e>
-        return VMM_ALLOC_ERRO;
+        return KERN_VMM_ALLOC_ERRO;
 c02069ec:	b8 ff ff ff ff       	mov    $0xffffffff,%eax
 c02069f1:	e9 8e 00 00 00       	jmp    c0206a84 <vmm_kern_alloc+0xcc>
     }
@@ -6724,7 +6724,7 @@ c0206a05:	8d 83 c7 02 00 00    	lea    0x2c7(%ebx),%eax
 c0206a0b:	50                   	push   %eax
 c0206a0c:	e8 55 ce ff ff       	call   c0203866 <printk>
 c0206a11:	83 c4 10             	add    $0x10,%esp
-        return VMM_ALLOC_ERRO;
+        return KERN_VMM_ALLOC_ERRO;
 c0206a14:	b8 ff ff ff ff       	mov    $0xffffffff,%eax
 c0206a19:	eb 69                	jmp    c0206a84 <vmm_kern_alloc+0xcc>
     }            
@@ -6752,7 +6752,7 @@ c0206a46:	8d 83 ca 02 00 00    	lea    0x2ca(%ebx),%eax
 c0206a4c:	50                   	push   %eax
 c0206a4d:	e8 14 ce ff ff       	call   c0203866 <printk>
 c0206a52:	83 c4 10             	add    $0x10,%esp
-            return VMM_ALLOC_ERRO;
+            return KERN_VMM_ALLOC_ERRO;
 c0206a55:	b8 ff ff ff ff       	mov    $0xffffffff,%eax
 c0206a5a:	eb 28                	jmp    c0206a84 <vmm_kern_alloc+0xcc>
         }

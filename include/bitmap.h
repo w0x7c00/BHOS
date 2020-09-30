@@ -21,6 +21,4 @@ uint32_t bitmap_alloc(bitmap bm);
 
 void bitmap_test();
 
-
-
 #endif

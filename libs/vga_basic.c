@@ -49,10 +49,8 @@ void screen_uproll_once(){     //光标是会变化的
 		}
 	}
 	for(int i=0;i<80;i++){
-		uint16_t lastRowCur=24*80+i;
-		*((char *)video_memory+2*lastRowCur)='\0';
-		*((char *)video_memory+2*lastRowCur+1)=0x0F;									
-
+        int location = 24*80+i;
+        *((uint16_t *)video_memory+location)=(0x0F<<8)|'\0';
 	}
 	if(cursor_y!=0){
 		cursor_y--;
@@ -79,6 +77,8 @@ void vga_putc(char input,vga_color_t back,vga_color_t fore){
 	}
 	move_cursor();
 }
+
+
 void kputc_color(char input,vga_color_t back,vga_color_t fore){
 	switch (input)
 	{
@@ -116,4 +116,18 @@ void kputs(char *input_str){
 
 void vga_init(){
 	clear_screen();
+}
+
+void vga_test_clear_last_row(){
+
+}
+
+void vga_basic_test(){
+    for(int i = 0;i<10;i++){
+        kputs("A\n");
+    }
+    kputs("MBCDEFG\n");
+    kputs("QWERTYU\n");
+    screen_uproll_once();
+    while(1);
 }

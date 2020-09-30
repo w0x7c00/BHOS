@@ -6,23 +6,27 @@
 #include "threads.h"
 #include "bitmap.h"
 #include "vmm.h"
+#include "user_task.h"
 void clear_screen();
 void kputc(char);
 void screen_uproll_once();
-uint32_t get_eflags();
 extern TCB_t * cur_tcb;
 extern TCB_t main_TCB;
+int entry_test_a;
 void kern_entry(){
-	asm volatile("cli");
 	void func(void* args);
-	vga_init();	
+	vga_init();
 	pmm_init();
+	screen_uproll_once();
 	idt_init();
-	asm volatile("sti");
+    //must close hardware inteupt because we have just user IRQ0(Number32/clock)
+    asm volatile("cli");
+    screen_uproll_once();
+    //vga_basic_test();
 	vmm_init();
-	vmm_test();
-
-//上卷函数有问题	
+    vmm_test();
+    bitmap_test();
+	user_task_test();
 
 while (1){
 		asm volatile("hlt");

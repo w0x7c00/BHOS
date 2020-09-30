@@ -294,6 +294,12 @@ static uint32_t find_and_pop_block(uint32_t target_page_no,page_c_t ph){
 		}
 	}
 	pm_page_t * probe = header ;
+	//
+	//
+	//
+	//
+	//
+	//
 	for(; probe->next!=NULL;probe=probe->next){
 		if(probe->next->page_no == target_page_no){
 			probe->next = probe->next->next;
@@ -304,7 +310,6 @@ static uint32_t find_and_pop_block(uint32_t target_page_no,page_c_t ph){
 		pop_block(ph);
 		return target_page_no;
 	}
-
 	return ERRO_POP_BLOCK;
 }
 
@@ -312,7 +317,7 @@ static uint32_t find_and_pop_block(uint32_t target_page_no,page_c_t ph){
 static uint32_t get_max_pm_addr(){          //qemu默认为128M
 	uint32_t max_addr=0;
 	for(pm_entry_t * pm_entry_cur = mboot_ptr->mmap_addr;pm_entry_cur<mboot_ptr->mmap_addr+mboot_ptr->mmap_length;pm_entry_cur++){
-		printk("0x%h-0x%h-0x%h-%d\n",pm_entry_cur->base_addr_low,pm_entry_cur->length_low,pm_entry_cur->base_addr_low+pm_entry_cur->length_low,pm_entry_cur->type);
+		printk("[INFO][PMM]physic_mem_block:0x%h-0x%h-0x%h-%d\n",pm_entry_cur->base_addr_low,pm_entry_cur->length_low,pm_entry_cur->base_addr_low+pm_entry_cur->length_low,pm_entry_cur->type);
 		if(pm_entry_cur->type==1&&max_addr<pm_entry_cur->base_addr_low+pm_entry_cur->length_low)
 			max_addr=pm_entry_cur->base_addr_low+pm_entry_cur->length_low;		
 	}
@@ -370,7 +375,7 @@ static void pmm_page_init(){  //初始化链表结构体并且填充链表
 	}
 	singel_page_first_no = temp_page_no;   //将第一个单页缓冲区的编号存放好
 
-	printk("we have %d pages for singel page alloc!\n",pmm_max_page_no-temp_page_no);
+	printk("[INFO][PMM]single_page_count:%d\n",pmm_max_page_no-temp_page_no);
 	pm_page_t * temp_single_probe = NULL;
 	for(;temp_page_no<pmm_max_page_no;temp_page_no++){
 		if(SINGLE_LINK == NULL){
@@ -560,18 +565,15 @@ void pmm_show_page_count(){
 
 //为内核entry使用的pmm管理模块初始化函数
 void pmm_init(){
-	printk("kern_start:0x%h\n",kern_start);
-	printk("kern_end:0x%h\n",kern_end);
-
+	printk("[INFO][PMM]kern_physic_start:0x%h\n",kern_start);
+	printk("[INFO][PMM]kern_physic_end:0x%h\n",kern_end);
 	//一定要注意 由于分页必须4k对齐 所以此处的物理页管理必须与虚拟页相同 都要4K对齐
 	pmm_page_start = ((((uint32_t)kern_end >> 12))+1)<<12;
 	pmm_page_end = (((get_max_pm_addr() >> 12)))<<12;
 	pmm_max_page_no = ((pmm_page_end - pmm_page_start)>>12);
-	printk("0x%h\n",pmm_page_start);
-	printk("0x%h\n",pmm_page_end);
-	printk("%d\n",pmm_max_page_no);
-	printk("page0:0x%h\n",pmm_page_no_to_addr(32000));
+	printk("[INFO][PMM]pmm_start:0x%h\n",pmm_page_start);
+	printk("[INFO][PMM]pmm_end:0x%h\n",pmm_page_end);
+	printk("[INFO][PMM]physic_page_count:%d\n",pmm_max_page_no+1);
+	printk("[INFO][PMM]first_page_physic_addr:0x%h\n",pmm_page_no_to_addr(32000));
 	pmm_page_init();
-	printk("page_no:%d\n",SINGLE_LINK->next->page_no);
-	printk("***%d***",get_partner_page_no(4,_2));
 }

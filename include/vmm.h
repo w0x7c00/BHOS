@@ -9,7 +9,7 @@
 #define PAGE_DESC_US_U  0x4//100b
 #define PAGE_DESC_US_S  0x0//000b
 #define PAGE_DESC_G 0x100//100000000b//全局位 会存放于TLB缓存中的页
-#define VMM_ALLOC_ERRO 0xFFFFFFFF
+#define KERN_VMM_ALLOC_ERRO 0xFFFFFFFF
 
 // 获取链接器变量 
 //内核加载起始位置-结束位置（物理内存）
@@ -22,4 +22,9 @@ void reload_kern_page();
 void vmm_init();
 void vmm_test();
 uint32_t vmm_kern_alloc();
+uint32_t vmm_kern_alloc_one_page(uint32_t target);
+void vmm_kern_release_one_page(uint32_t target);
+
+uint32_t get_pde(uint32_t target);
+uint32_t get_pte(uint32_t target);
 #endif
