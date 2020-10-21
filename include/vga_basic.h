@@ -1,7 +1,6 @@
 #ifndef VGA_BASIC_H
 #define VGA_BASIC_H
 #include "port.h"
-
 typedef
 enum char_color {
     black = 0,

@@ -1,5 +1,5 @@
-#ifndef     VMM_H
-#define    VMM_H
+#ifndef VMM_H
+#define VMM_H
 
 #include "types.h"
 #define PAGE_SIZE 4096
@@ -27,4 +27,5 @@ void vmm_kern_release_one_page(uint32_t target);
 
 uint32_t get_pde(uint32_t target);
 uint32_t get_pte(uint32_t target);
+
 #endif

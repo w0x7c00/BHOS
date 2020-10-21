@@ -1,0 +1,16 @@
+# 文件结构
+- BHOS
+    - 项目编译文件
+    - userapp
+    - boot
+    - kernel
+        - entry.c（内核入口）
+        - drivers （底层硬件驱动）
+        - modules
+            - interrupt
+            - pmm
+            - vmm
+            - thread
+    - libs
+        - utils（项目专用工具）
+        - 其他的lib

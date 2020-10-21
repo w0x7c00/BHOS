@@ -7,6 +7,7 @@
 #include "bitmap.h"
 #include "vmm.h"
 #include "user_task.h"
+#include "kern_log.h"
 void clear_screen();
 void kputc(char);
 void screen_uproll_once();
@@ -19,13 +20,14 @@ void kern_entry(){
 	pmm_init();
 	screen_uproll_once();
 	idt_init();
-    //must close hardware inteupt because we have just user IRQ0(Number32/clock)
+    //must close hardware interrupt because we have just user IRQ0(Number32/clock)
     asm volatile("cli");
     screen_uproll_once();
     //vga_basic_test();
 	vmm_init();
     vmm_test();
-    bitmap_test();
+    WARNING("123","456");
+    //bitmap_test();
 	user_task_test();
 
 while (1){

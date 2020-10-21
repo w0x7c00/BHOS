@@ -71,7 +71,6 @@ set_page:
     mov [kern_dir_table+0xc00],eax
     mov [kern_dir_table],eax    ;映射0x0起始4MB    这一段映射只会使用一次
 
-
     mov eax,1023
     .create_pte:              
     mov ebx,eax
