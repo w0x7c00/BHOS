@@ -56,7 +56,7 @@ set_page:
 
     mov ecx,0
     mov cx,255  ;256-1
-    .create_pde:            ;创建临时页目录项与页表对应关系
+    .create_pde:            ;创建临时页目录项与页表对应关系    将除了最后一张页表以外的255张页表全部映射到页目录中    页目录所有的项都是present的
     ;mov eax,kern_page_table+ecx*4096     ;1024*4
     mov eax,0
     mov ax,4096

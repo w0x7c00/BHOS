@@ -10,6 +10,7 @@
 #define PAGE_DESC_US_S  0x0//000b
 #define PAGE_DESC_G 0x100//100000000b//全局位 会存放于TLB缓存中的页
 #define KERN_VMM_ALLOC_ERRO 0xFFFFFFFF
+#define USER_VMM_ALLOC_ERRO 0xFFFFFFFF
 
 // 获取链接器变量 
 //内核加载起始位置-结束位置（物理内存）

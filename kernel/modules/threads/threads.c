@@ -6,6 +6,10 @@
 TCB_t main_TCB;    //内核主线程TCB
 TCB_t* cur_tcb;
 
+
+TCB_t* get_running_progress(){
+	return cur_tcb;
+}
 void threads_init(){
 	TCB_t *tcb_buffer_addr = &main_TCB;
 	tcb_buffer_addr->tid = 0;        //主线程的编号为0  

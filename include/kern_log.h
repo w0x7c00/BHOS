@@ -9,9 +9,10 @@
 #define WARNING warning_kern
 #define INFO info_kern
 #define ERROR error_kern
+#define STOP stop_kern
 
 void warning_kern(char* src,char* text);
 void info_kern(char* src,char* text);
 void error_kern(char* src,char* text);
-
+void stop_kern(char* src,char* text);
 #endif

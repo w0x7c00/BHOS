@@ -1,10 +1,14 @@
-//2020 9 24
-//by buchixiangcaidedatouguai
+/*
+by 不吃香菜的大头怪     GitHub：CQU-code-lover
+2020-10-24
+描述： 本文件包含用于创建/回收用户进程相关函数
+*/
 #include "user_task.h"
 #include "bitmap.h"
 #include "vmm.h"
 #include "printk.h"
 #include "string.h"
+#include "threads.h"
 
 //创建用户专用bitmap
 //用户的bitmap会占用内核虚拟空间 要在内核空间池中分配 
