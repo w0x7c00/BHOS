@@ -8,6 +8,7 @@
 #include "vmm.h"
 #include "user_task.h"
 #include "kern_log.h"
+#include "tss.h"
 void clear_screen();
 void kputc(char);
 void screen_uproll_once();
@@ -18,15 +19,17 @@ void kern_entry(){
 	void func(void* args);
 	vga_init();
 	pmm_init();
-	screen_uproll_once();
+	printk("kern_pdt_paddr:0x%h\n",kern_dir_table_paddr);
+	tss_init();
+	printk("init\n");
+  while (1);
 	idt_init();
     //must close hardware interrupt because we have just user IRQ0(Number32/clock)
-    asm volatile("cli");
-    screen_uproll_once();
+//asm volatile("sti");
+  
     //vga_basic_test();
 	vmm_init();
     vmm_test();
-    WARNING("123","456");
     //bitmap_test();
 	user_task_test();
 
@@ -40,7 +43,7 @@ while (1){
 	threads_init();
 	//pmm需要在关中断的时候使用
 	
-	create_thread(1,(thread_function *)func,0,vmm_kern_alloc(),1);
+	//create_thread(1,(thread_function *)func,0,vmm_kern_alloc(),1);
     
 	asm volatile ("sti");   //要在主线程加载完后开中断
 	while(True){

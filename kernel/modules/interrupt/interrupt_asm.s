@@ -1,10 +1,12 @@
+;中断系统
 KERN_DATA_SELECTOR equ 0x0002<<3 + 000b
 KERN_VGA_SELECTOR equ 0x0003<<3 + 000b
+;中断参数保存在ebx中！！！！！
 [bits 32]
 %macro NO_ERROCODE 1     ;带中断号参数宏
 [GLOBAL isr%1]
 isr%1:
-		mov eax,esp      ;中断参数传入
+;		mov eax,esp      ;中断参数传入
 		push 0
 		push %1          ;中断号
 		jmp pre_handle
@@ -13,18 +15,18 @@ isr%1:
 %macro HAVE_ERROCODE 1
 [GLOBAL isr%1]
 isr%1:
-		mov eax,esp
+;		mov eax,esp
 		nop
 		push %1
 		jmp pre_handle
 %endmacro
 
-
+;这个中断流程是内核与用户共用的
 [EXTERN int_func_route]
 pre_handle:
 	pushad               ;压入八个32位
 	mov ecx,[ss:esp+32]
-	mov ebx,eax
+	;mov ebx,eax
 	mov ax,es          ;进入时ss已经被切换了
 	and eax,0x0000FFFF
 	push eax
@@ -34,6 +36,7 @@ pre_handle:
 	mov ax,gs
 	and eax,0x0000FFFF
 	push eax
+;切换回内核的中断相关段寄存器  cs与ss不用管 在中断时已经被cpu自动从tss中切换
 	mov ax,KERN_DATA_SELECTOR    ;不包含ss
 	mov es,ax
 	mov fs,ax
@@ -41,7 +44,28 @@ pre_handle:
 	mov gs,ax
 	push ebx     ;传入void *
 	push ecx     ;传入int类型中断号
+
+; 此时的内核栈结构
+;  high addr :       cpu填充结构
+;                               错误号或0填充
+; 								中断号
+;                               eax
+;                               ecx 
+;                               edx
+;                               ebx
+;                               esp                    
+;                               ebp
+;                               esi
+;                               edi
+;                              	es（扩展为32位）
+;                               fs（扩展为32位）
+;                               gs（扩展为32位）
+;                               中断参数
+; low addr            中断号
 	call int_func_route
+;以下部分为中断退出结构
+;C遵循函数调用者处理函数压入参数问题 所以使用add esp,8去除压入的两个参数（intr   AND    args）
+;使用函数handle_int_exit_stack的开始位置
 	add esp,8
 	pop eax
 	mov gs,ax
@@ -54,6 +78,7 @@ pre_handle:
 	mov al,0x20
 	out 0xA0,al
 	out 0x20,al
+;此处的al是否需要保存？
 	iret
 
 

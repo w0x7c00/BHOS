@@ -196,20 +196,36 @@ void vmm_kern_release_one_page(uint32_t target) {
 }
 
 
+//检测vaddr是否可以访问（页表以及页目录项都是P=1）
+bool check_vaddr_present(uint32_t vaddr){
+    uint32_t * pde_ptr = get_pde(vaddr);
+    uint32_t * pte_ptr;
+    if(*pde_ptr==(*pde_ptr)|0x00000001){
+         pte_ptr = get_pte(vaddr);
+         if(*pte_ptr==(*pte_ptr)|0x00000001){
+            return True;
+         }
+         else{
+             return False;
+         }
+    }
+    else{
+        return False;
+    }
+}
 
-
-#define V2P_ERROR 0xFFFFFFFF
 //注意：输入的值结尾为FFF时要防止与错误输出冲突
 //本函数不会无视页表的P位
-static uint32_t vmm_kern_vaddr_to_paddr(uint32_t vaddr){
+//用于根据已安装的页表进行虚拟地址转换
+uint32_t vmm_v2p(uint32_t vaddr){
     uint32_t pte_addr = get_pte(vaddr);
     uint32_t * ptr = (uint32_t*)pte_addr;
-    if(*ptr==(*ptr)|0x00000001){
-        //p位为1
+    if(check_vaddr_present(vaddr)){
+        //可访问的vaddr
         return (*(ptr)&0xFFFFF000)|(0x00000FFF&vaddr);
     }
     else{
-        //p位为0
+        //不可访问的vaddr
         return V2P_ERROR;
     }
 }
@@ -261,7 +277,7 @@ static bool create_user_page_table(uint32_t pde_vaddr){
     else{
         //进行单页内存清理
         bzero(re_vaddr,PAGE_SIZE);
-        uint32_t page_paddr = vmm_kern_vaddr_to_paddr(re_vaddr);
+        uint32_t page_paddr = vmm_v2p(re_vaddr);
         //获取页表物理地址i
         if(page_paddr == V2P_ERROR){
             //转换失败！！！
@@ -339,9 +355,18 @@ void vmm_user_release_one_page(uint32_t target){
 
 }
 
+int get_user_used_vmm_info(){
+    return 1;
+}
 
 
 //*************for user vmm****************
+
+
+
+
+
+
 
 
 //6(0110)3(0011)

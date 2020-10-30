@@ -48,9 +48,6 @@ extern TCB_t * cur_tcb;
 
 //时钟中断函数 主要用于线程调度
 void timer_server_func(void *args){
-    //printk("123\n");
-  return ;
-
 	if(cur_tcb->time_left!=0){
 		(cur_tcb->time_left)--;
 		(cur_tcb->time_counter)++;
@@ -180,8 +177,17 @@ void idt_init(){
 	lidt_target.base = (uint32_t)&idt_entries;
 	timer_init(1000);
 	load_idt((uint32_t)&lidt_target);
-    asm volatile("sti");
+    sti();
 }
+
+// INT路由函数
 void int_func_route(int int_no,void * args){
 	int_server_func_list[int_no](args);
+}
+
+void cli(){
+    asm volatile("cli");
+}
+void sti(){
+    asm volatile("sti");
 }

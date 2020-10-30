@@ -11,6 +11,7 @@
 #define PAGE_DESC_G 0x100//100000000b//全局位 会存放于TLB缓存中的页
 #define KERN_VMM_ALLOC_ERRO 0xFFFFFFFF
 #define USER_VMM_ALLOC_ERRO 0xFFFFFFFF
+#define V2P_ERROR 0xFFFFFFFF
 
 // 获取链接器变量 
 //内核加载起始位置-结束位置（物理内存）
@@ -28,5 +29,6 @@ void vmm_kern_release_one_page(uint32_t target);
 
 uint32_t get_pde(uint32_t target);
 uint32_t get_pte(uint32_t target);
+uint32_t vmm_v2p(uint32_t vaddr);
 
 #endif

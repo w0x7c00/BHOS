@@ -106,6 +106,17 @@ INIT_STACK_TOP equ $-1
 [BITS 32]   ;由于GRUB在加载内核前进入保护模式，所以要32位编译   
 section .text    
 [EXTERN kern_entry]
+;global选择子为全局变量
+;gdt_ptr用于在内核加载以后初始化TSS（设置GDT并重载页表）
+[GLOBAL GDT_BASE]
+[GLOBAL SELECTOR_CODE_MEM] 
+[GLOBAL SELECTOR_DATA_MEM]   
+[GLOBAL SELECTOR_VIDEO_MEM] 
+[GLOBAL SELECTOR_USER_CODE_MEM] 
+[GLOBAL SELECTOR_USER_DATA_MEM]  
+[GLOBAL SELECTOR_TSS_CPU0_MEM]
+[GLOBAL gdt_ptr]
+; GDT安装位置
    GDT_BASE:   dd    0x00000000 
            	   dd    0x00000000
 
@@ -125,16 +136,36 @@ section .text
 
     USER_DATA_DESC: dd 0x0000FFFF
                 dd   DESC_USER_DATA_HIGH4
-;------------------------------------------
+    ;-------------------------------------
+    
+    ;---------TSS描述符---------------
+    ;每个CPU应该分配一个TSS用于栈切换
+    ;暂时初始化为0
+    TSS_CPU0:dd 0x0
+                    dd 0x0
+    ;--------------------------------------
 
-
-   GDT_SIZE   equ   $ - GDT_BASE
+    GDT_SIZE   equ   $ - GDT_BASE
    GDT_LIMIT   equ   GDT_SIZE - 1 
+   
+   
    SELECTOR_CODE equ (0x0001<<3) + TI_GDT + RPL0     ; 相当于(CODE_DESC - GDT_BASE)/8 + TI_GDT + RPL0
    SELECTOR_DATA equ (0x0002<<3) + TI_GDT + RPL0     ; 同上
    SELECTOR_VIDEO equ (0x0003<<3) + TI_GDT + RPL0    ; 同上 
-   ;SELECTOR_USER_CODE equ (0x004<<3) + TI_GDT + RPL3
-   ;SELECTOR_USER_DATA equ (0x005<<3) + TI_GDT + RPL3
+   SELECTOR_USER_CODE equ (0x0004<<3) + TI_GDT + RPL3
+   SELECTOR_USER_DATA equ (0x0005<<3) + TI_GDT + RPL3
+   SELECTOR_TSS_CPU0 equ (0x0006<<3) + TI_GDT +RPL0
+   
+
+   SELECTOR_CODE_MEM dw SELECTOR_CODE
+   SELECTOR_DATA_MEM dw SELECTOR_DATA
+   SELECTOR_VIDEO_MEM dw SELECTOR_VIDEO
+   SELECTOR_USER_CODE_MEM dw SELECTOR_USER_CODE
+   SELECTOR_USER_DATA_MEM dw SELECTOR_USER_DATA
+   SELECTOR_TSS_CPU0_MEM dw SELECTOR_TSS_CPU0
+   
+
+
    total_mem_bytes dd 0                  
    ;以下是定义gdt的指针，前2字节是gdt界限，后4字节是gdt起始地址
    gdt_ptr  dw  GDT_LIMIT 
@@ -152,6 +183,8 @@ boot_start_after_set_paging:        ;此处修改了函数名     在设置好�
     or al,0000_0010B
     out 0x92,al
    ;-----------------  加载GDT  ----------------
+   ; 注意：lgdt装载的低32位是线性地址（逻辑地址----》线性地址------》物理地址）
+   ; 所有的段的实际偏移都是0    故线性地址等效于逻辑地址   即虚拟地址    所以此处gdt_ptr内容中低32位实际上是GDT的虚拟地址   
     lgdt [gdt_ptr]
    ;-----------------  cr0第0位置1  ----------------
     mov eax, cr0

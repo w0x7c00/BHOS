@@ -30,7 +30,7 @@ switch_to:
 
 	;加载上下文
 	mov eax,[esp+8]      ;第二个参数
-	mov esp,[eax+28]
+	mov esp,[eax+28]    ;切换了esp    导致ret指令控制流转移
 	mov ebp,[eax]
 	mov ebx,[eax+4]
 	mov ecx,[eax+8]
@@ -48,4 +48,3 @@ switch_to:
 	out 0x20,al
 	
 	ret                  ;执行下一个函数
-

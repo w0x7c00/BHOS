@@ -32,37 +32,37 @@
 00000000000i[     ]   SB16 support: yes
 00000000000i[     ]   USB support: yes
 00000000000i[     ]   VGA extension support: vbe cirrus
-00000000000i[MEM0 ] allocated memory at 0x7efdcef7e010. after alignment, vector=0x7efdcef7f000
+00000000000i[MEM0 ] allocated memory at 0x7f851e63d010. after alignment, vector=0x7f851e63e000
 00000000000i[MEM0 ] 32.00MB
 00000000000i[MEM0 ] mem block size = 0x00100000, blocks=32
 00000000000i[MEM0 ] rom at 0xfffe0000/131072 ('/usr/share/bochs/BIOS-bochs-latest')
-00000000000i[     ] lt_dlhandle is 0x555bd1a410b0
+00000000000i[     ] lt_dlhandle is 0x55bde2f3d300
 00000000000i[PLGIN] loaded plugin libbx_hdimage.so
-00000000000i[     ] lt_dlhandle is 0x555bd1c05c40
+00000000000i[     ] lt_dlhandle is 0x55bde3101e90
 00000000000i[PLGIN] loaded plugin libbx_pci.so
-00000000000i[     ] lt_dlhandle is 0x555bd1c067d0
+00000000000i[     ] lt_dlhandle is 0x55bde3102a20
 00000000000i[PLGIN] loaded plugin libbx_pci2isa.so
-00000000000i[     ] lt_dlhandle is 0x555bd1c071e0
+00000000000i[     ] lt_dlhandle is 0x55bde3103430
 00000000000i[PLGIN] loaded plugin libbx_acpi.so
-00000000000i[     ] lt_dlhandle is 0x555bd1c07bf0
+00000000000i[     ] lt_dlhandle is 0x55bde3103e40
 00000000000i[PLGIN] loaded plugin libbx_cmos.so
-00000000000i[     ] lt_dlhandle is 0x555bd1c08530
+00000000000i[     ] lt_dlhandle is 0x55bde3104780
 00000000000i[PLGIN] loaded plugin libbx_dma.so
-00000000000i[     ] lt_dlhandle is 0x555bd1c08fd0
+00000000000i[     ] lt_dlhandle is 0x55bde3105220
 00000000000i[PLGIN] loaded plugin libbx_pic.so
-00000000000i[     ] lt_dlhandle is 0x555bd1c09880
+00000000000i[     ] lt_dlhandle is 0x55bde3105ad0
 00000000000i[PLGIN] loaded plugin libbx_pit.so
-00000000000i[     ] lt_dlhandle is 0x555bd1c0a2c0
+00000000000i[     ] lt_dlhandle is 0x55bde3106510
 00000000000i[PLGIN] loaded plugin libbx_floppy.so
-00000000000i[     ] lt_dlhandle is 0x555bd1c0aec0
+00000000000i[     ] lt_dlhandle is 0x55bde3107110
 00000000000i[PLGIN] loaded plugin libbx_vga.so
-00000000000i[     ] lt_dlhandle is 0x555bd1c0b730
+00000000000i[     ] lt_dlhandle is 0x55bde3107980
 00000000000i[PLGIN] loaded plugin libbx_ioapic.so
-00000000000i[     ] lt_dlhandle is 0x555bd1c0bf80
+00000000000i[     ] lt_dlhandle is 0x55bde31081d0
 00000000000i[PLGIN] loaded plugin libbx_keyboard.so
-00000000000i[     ] lt_dlhandle is 0x555bd1c0c910
+00000000000i[     ] lt_dlhandle is 0x55bde3108b60
 00000000000i[PLGIN] loaded plugin libbx_harddrv.so
-00000000000i[     ] lt_dlhandle is 0x555bd1c1ea40
+00000000000i[     ] lt_dlhandle is 0x55bde311ac90
 00000000000i[PLGIN] loaded plugin libbx_pci_ide.so
 00000000000i[PLGIN] init_dev of 'pci' plugin device by virtual method
 00000000000i[PCI  ] 440FX Host bridge present at device 0, function 0
@@ -70,7 +70,7 @@
 00000000000i[PCI  ] PIIX3 PCI-to-ISA bridge present at device 1, function 0
 00000000000i[PLGIN] init_dev of 'cmos' plugin device by virtual method
 00000000000i[CMOS ] Using local time for initial clock
-00000000000i[CMOS ] Setting initial clock to: Wed Sep 30 16:32:26 2020 (time0=1601454746)
+00000000000i[CMOS ] Setting initial clock to: Fri Oct 30 19:26:01 2020 (time0=1604057161)
 00000000000i[PLGIN] init_dev of 'dma' plugin device by virtual method
 00000000000i[DMA  ] channel 4 used by cascade
 00000000000i[PLGIN] init_dev of 'pic' plugin device by virtual method
@@ -175,9 +175,6 @@
 00000000000i[XGUI ] Mouse capture off
 00000000000i[     ] set SIGINT handler to bx_debug_ctrlc_handler
 00000000000i[XGUI ] Mouse capture off
-00000000001i[XGUI ] Mouse capture off
-00000000002i[XGUI ] Mouse capture off
-00000000003i[XGUI ] Mouse capture off
 00000000025i[MEM0 ] allocate_block: block=0x0 used 0x1 of 0x20
 00000004661i[BIOS ] $Revision: 11318 $ $Date: 2012-08-06 19:59:54 +0200 (Mo, 06. Aug 2012) $
 00000319074i[KBD  ] reset-disable command received
@@ -228,26 +225,25 @@
 00018546164i[BIOS ] int13_harddisk: function 41, unmapped device for ELDL=81
 00018549844i[BIOS ] int13_harddisk: function 08, unmapped device for ELDL=81
 00018553505i[BIOS ] *** int 15h function AX=00c0, BX=0000 not yet supported!
-00048782706i[MEM0 ] allocate_block: block=0x2 used 0x4 of 0x20
-00054313465i[MEM0 ] allocate_block: block=0x3 used 0x5 of 0x20
-00072004000p[XGUI ] >>PANIC<< POWER button turned off.
-00072004000i[CPU0 ] CPU is in protected mode (active)
-00072004000i[CPU0 ] CS.mode = 32 bit
-00072004000i[CPU0 ] SS.mode = 32 bit
-00072004000i[CPU0 ] EFER   = 0x00000000
-00072004000i[CPU0 ] | EAX=c0290f20  EBX=c0208000  ECX=00000f9e  EDX=00000000
-00072004000i[CPU0 ] | ESP=c0290fd0  EBP=c0290fe8  ESI=00058d8a  EDI=00058d79
-00072004000i[CPU0 ] | IOPL=0 id vip vif ac vm rf nt of df IF tf SF zf af pf cf
-00072004000i[CPU0 ] | SEG sltr(index|ti|rpl)     base    limit G D
-00072004000i[CPU0 ] |  CS:0008( 0001| 0|  0) 00000000 ffffffff 1 1
-00072004000i[CPU0 ] |  DS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
-00072004000i[CPU0 ] |  SS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
-00072004000i[CPU0 ] |  ES:0010( 0002| 0|  0) 00000000 ffffffff 1 1
-00072004000i[CPU0 ] |  FS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
-00072004000i[CPU0 ] |  GS:0018( 0003| 0|  0) 000b8000 00007fff 1 1
-00072004000i[CPU0 ] | EIP=c0206ef8 (c0206ef8)
-00072004000i[CPU0 ] | CR0=0xe0000011 CR2=0x00000000
-00072004000i[CPU0 ] | CR3=0x00101000 CR4=0x00000000
-00072004000i[CMOS ] Last time is 1601454764 (Wed Sep 30 16:32:44 2020)
-00072004000i[XGUI ] Exit
-00072004000i[CTRL ] quit_sim called with exit code 1
+00036019843i[MEM0 ] allocate_block: block=0x2 used 0x4 of 0x20
+00060004000p[XGUI ] >>PANIC<< POWER button turned off.
+00060004000i[CPU0 ] CPU is in protected mode (active)
+00060004000i[CPU0 ] CS.mode = 32 bit
+00060004000i[CPU0 ] SS.mode = 32 bit
+00060004000i[CPU0 ] EFER   = 0x00000000
+00060004000i[CPU0 ] | EAX=00000000  EBX=c0209000  ECX=0000000f  EDX=000003d5
+00060004000i[CPU0 ] | ESP=c0291ff0  EBP=c0291ff8  ESI=00058d8a  EDI=00058d79
+00060004000i[CPU0 ] | IOPL=0 id vip vif ac vm rf nt of df if tf SF zf af PF cf
+00060004000i[CPU0 ] | SEG sltr(index|ti|rpl)     base    limit G D
+00060004000i[CPU0 ] |  CS:0008( 0001| 0|  0) 00000000 ffffffff 1 1
+00060004000i[CPU0 ] |  DS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+00060004000i[CPU0 ] |  SS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+00060004000i[CPU0 ] |  ES:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+00060004000i[CPU0 ] |  FS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+00060004000i[CPU0 ] |  GS:0018( 0003| 0|  0) 000b8000 00007fff 1 1
+00060004000i[CPU0 ] | EIP=c02068fd (c02068fd)
+00060004000i[CPU0 ] | CR0=0xe0000011 CR2=0x00000000
+00060004000i[CPU0 ] | CR3=0x00101000 CR4=0x00000000
+00060004000i[CMOS ] Last time is 1604057176 (Fri Oct 30 19:26:16 2020)
+00060004000i[XGUI ] Exit
+00060004000i[CTRL ] quit_sim called with exit code 1

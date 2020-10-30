@@ -17,3 +17,9 @@ void stop_kern(char* src,char* text){
     printk_color("[STOP][%s]%s\n",white,black,src,text);
     while(1){}
 }
+
+void debug(function func,char *src,char*text){
+    #ifdef DEBUG_FLAGE
+    func(src,text);
+    #endif
+}

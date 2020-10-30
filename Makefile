@@ -19,7 +19,7 @@ target_floppy = floppy.img
 #目标硬盘
 target_hd = hd.img
 #目标回环设备
-target_loop = 20
+target_loop = 19
 
 #过程
 all: $(S_OBJECTS) $(C_OBJECTS) link mt copykern umt
