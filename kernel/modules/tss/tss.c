@@ -71,8 +71,6 @@ void tss_update(TCB_t* tcb_ptr){
     tss_cpu0.esp0 = (uint32_t*)((uint32_t)tcb_ptr+tcb_ptr->page_counte*PAGE_SIZE);
 }
 
-
-
 void tss_test(){
     printk("GDT_BASE:%h\nGDT_PTR:0x%h\n",&GDT_BASE,&gdt_ptr);
 }

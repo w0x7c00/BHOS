@@ -112,7 +112,7 @@ static void _active_user_pdt(uint32_t pdt_paddr){
 }
 //页表装载------------------------------
 
-
+//在调度task之前需要执行此函数激活task的页表以及进程的tss
 void active_task(TCB_t* tcb_ptr){
     if(tcb_ptr->is_kern_thread){
         //内核线程同样需要重新装载页表      否者可能会访问到上一个用户进程的用户虚拟空间（0-3GB）
@@ -142,6 +142,15 @@ void start_user_task(start_user_task_params_t* params_ptr){
             goto error_out;
         }
         else{
+
+            //进行jmp 3级特权中断栈填充
+            TCB_t * cur_tcb = get_running_progress();
+            uint32_t kern_stack_top = cur_tcb->kern_stack_top;
+            interrupt_stack_t  * int_stack = kern_stack_top + sizeof
+            int_stack.
+
+
+
             return;
         }       
     }

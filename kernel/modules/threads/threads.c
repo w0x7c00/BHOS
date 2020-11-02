@@ -56,12 +56,13 @@ TCB_t* create_TCB(uint32_t tid,uint32_t page_addr,uint32_t page_counte){
 	tcb_buffer_addr->task_status = TASK_RUNNING;
 	tcb_buffer_addr->page_counte=page_counte; 
 	tcb_buffer_addr->page_addr=page_addr;
-	tcb_buffer_addr->kern_stack_top=page_addr+page_counte*4096;
+	tcb_buffer_addr->kern_stack_top=page_addr+page_counte*PAGE_SIZE;    
 	tcb_buffer_addr->tcb_magic_number = TCB_MAGIC_NUMBER;
 	return (TCB_t*)page_addr;
 }
 
 //创建最终线程的核心函数     创建用户进程以及创建内核线程的函数都是对这个函数的封装
+//会操作TCB链表 需要加锁
 void create_thread(uint32_t tid,thread_function *func,void *args,uint32_t addr,uint32_t page_counte,bool is_kern_thread,bitmap user_vmm_pool,uint32_t pdt_vaddr){	
 	asm volatile("cli");  //由于创建过程会使用到共享的数据 不使用锁的话会造成临界区错误 所以我们在此处关闭中断
 	TCB_t * new_tcb = create_TCB(tid,addr,page_counte);
