@@ -1,0 +1,7 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="RemoteDebug" type="CLion_Remote" singleton="false" remoteCommand="127.0.0.1:1234" symbolFile="$PROJECT_DIR$/kernel.elf" sysroot="">
+    <pathMapping remote=":" local="" />
+    <pathMapping remote=":" local="" />
+    <method v="2" />
+  </configuration>
+</component>

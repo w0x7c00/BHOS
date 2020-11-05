@@ -83,3 +83,6 @@ gdbgui:
 .PHONY:bochs
 bochs:
 	bochs -f bochsrc
+.PHONY:dump
+dump:
+	objdump -S kernel.elf>dump

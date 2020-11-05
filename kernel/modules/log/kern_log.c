@@ -14,6 +14,7 @@ void warning_kern(char* src,char* text){
 }
 
 void stop_kern(char* src,char* text){
+    //printk("[STOP][%s]%s\n",src,text);
     printk_color("[STOP][%s]%s\n",white,black,src,text);
     while(1){}
 }

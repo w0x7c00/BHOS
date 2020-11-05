@@ -2,6 +2,7 @@
 #define VMM_H
 
 #include "types.h"
+#include "threads.h"
 #define PAGE_SIZE 4096
 #define PAGE_DESC_P  0x1//1b
 #define PAGE_DESC_RW_R  0x0//00b
@@ -30,5 +31,6 @@ void vmm_kern_release_one_page(uint32_t target);
 uint32_t get_pde(uint32_t target);
 uint32_t get_pte(uint32_t target);
 uint32_t vmm_v2p(uint32_t vaddr);
+uint32_t vmm_user_alloc_one_page(TCB_t * tcb_ptr,uint32_t vaddr);
 
 #endif

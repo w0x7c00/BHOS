@@ -22,19 +22,26 @@ void kern_entry(){
 	printk("kern_pdt_paddr:0x%h\n",kern_dir_table_paddr);
 	tss_init();
 	printk("init\n");
-  while (1);
+  //while (1);
 	idt_init();
     //must close hardware interrupt because we have just user IRQ0(Number32/clock)
 //asm volatile("sti");
-  
+	threads_init();
     //vga_basic_test();
 	vmm_init();
-    vmm_test();
+    //vmm_test();
     //bitmap_test();
-	user_task_test();
-
+	//user_task_test();
+	start_user_task_params_t u1;
+	u1.fd = 0;
+	u1.is_from_file = False;
+	u1.function = func;
+	u1.args = (void*)NULL;
+	create_user_task(2,&u1);
 while (1){
-		asm volatile("hlt");
+	 	asm volatile("cli");
+		//printk("Kernel Task / TID = 0\n");
+		asm volatile("sti");
 	}
 
 	// pm_alloc_t re = pmm_alloc_pages(1);
@@ -57,8 +64,9 @@ while (1){
 
 void func(void* args){
 	while(True){
-		asm volatile("cli");
-		printk_color("B",15,0);
-		asm volatile("sti");
+		*((uint32_t*)0xF0000000)=0;
+		//asm volatile("cli");
+		//printk_color("B",15,0);
+		//asm volatile("sti");
 	}
 }

@@ -1,0 +1,90 @@
+qemu -S -s -hda hd.img -boot a &
+sleep 1
+WARNING: Image format was not specified for 'hd.img' and probing guessed raw.
+         Automatically detecting the format is dangerous for raw images, write operations on block 0 will be restricted.
+         Specify the 'raw' format explicitly to remove the restrictions.
+qemu: terminating on signal 1
+qemu -S -s -hda hd.img -boot a &
+sleep 1
+WARNING: Image format was not specified for 'hd.img' and probing guessed raw.
+         Automatically detecting the format is dangerous for raw images, write operations on block 0 will be restricted.
+         Specify the 'raw' format explicitly to remove the restrictions.
+qemu: terminating on signal 1
+qemu -S -s -hda hd.img -boot a &
+sleep 1
+WARNING: Image format was not specified for 'hd.img' and probing guessed raw.
+         Automatically detecting the format is dangerous for raw images, write operations on block 0 will be restricted.
+         Specify the 'raw' format explicitly to remove the restrictions.
+qemu: terminating on signal 1
+qemu -S -s -hda hd.img -boot a &
+sleep 1
+WARNING: Image format was not specified for 'hd.img' and probing guessed raw.
+         Automatically detecting the format is dangerous for raw images, write operations on block 0 will be restricted.
+         Specify the 'raw' format explicitly to remove the restrictions.
+qemu: terminating on signal 1
+qemu -S -s -hda hd.img -boot a &
+sleep 1
+WARNING: Image format was not specified for 'hd.img' and probing guessed raw.
+         Automatically detecting the format is dangerous for raw images, write operations on block 0 will be restricted.
+         Specify the 'raw' format explicitly to remove the restrictions.
+qemu -S -s -hda hd.img -boot a &
+sleep 1
+WARNING: Image format was not specified for 'hd.img' and probing guessed raw.
+         Automatically detecting the format is dangerous for raw images, write operations on block 0 will be restricted.
+         Specify the 'raw' format explicitly to remove the restrictions.
+qemu: terminating on signal 1
+qemu -S -s -hda hd.img -boot a &
+sleep 1
+WARNING: Image format was not specified for 'hd.img' and probing guessed raw.
+         Automatically detecting the format is dangerous for raw images, write operations on block 0 will be restricted.
+         Specify the 'raw' format explicitly to remove the restrictions.
+qemu: terminating on signal 1
+qemu -S -s -hda hd.img -boot a &
+sleep 1
+WARNING: Image format was not specified for 'hd.img' and probing guessed raw.
+         Automatically detecting the format is dangerous for raw images, write operations on block 0 will be restricted.
+         Specify the 'raw' format explicitly to remove the restrictions.
+qemu -S -s -hda hd.img -boot a &
+sleep 1
+WARNING: Image format was not specified for 'hd.img' and probing guessed raw.
+         Automatically detecting the format is dangerous for raw images, write operations on block 0 will be restricted.
+         Specify the 'raw' format explicitly to remove the restrictions.
+qemu -S -s -hda hd.img -boot a &
+sleep 1
+WARNING: Image format was not specified for 'hd.img' and probing guessed raw.
+         Automatically detecting the format is dangerous for raw images, write operations on block 0 will be restricted.
+         Specify the 'raw' format explicitly to remove the restrictions.
+qemu -S -s -hda hd.img -boot a &
+sleep 1
+WARNING: Image format was not specified for 'hd.img' and probing guessed raw.
+         Automatically detecting the format is dangerous for raw images, write operations on block 0 will be restricted.
+         Specify the 'raw' format explicitly to remove the restrictions.
+qemu: Initialization of device ide-hd failed: Failed to get "write" lock
+Is another process using the image?
+qemu -S -s -hda hd.img -boot a &
+sleep 1
+WARNING: Image format was not specified for 'hd.img' and probing guessed raw.
+         Automatically detecting the format is dangerous for raw images, write operations on block 0 will be restricted.
+         Specify the 'raw' format explicitly to remove the restrictions.
+qemu: Initialization of device ide-hd failed: Failed to get "write" lock
+Is another process using the image?
+qemu -S -s -hda hd.img -boot a &
+sleep 1
+WARNING: Image format was not specified for 'hd.img' and probing guessed raw.
+         Automatically detecting the format is dangerous for raw images, write operations on block 0 will be restricted.
+         Specify the 'raw' format explicitly to remove the restrictions.
+qemu -S -s -hda hd.img -boot a &
+sleep 1
+WARNING: Image format was not specified for 'hd.img' and probing guessed raw.
+         Automatically detecting the format is dangerous for raw images, write operations on block 0 will be restricted.
+         Specify the 'raw' format explicitly to remove the restrictions.
+qemu -S -s -hda hd.img -boot a &
+sleep 1
+WARNING: Image format was not specified for 'hd.img' and probing guessed raw.
+         Automatically detecting the format is dangerous for raw images, write operations on block 0 will be restricted.
+         Specify the 'raw' format explicitly to remove the restrictions.
+qemu -S -s -hda hd.img -boot a &
+sleep 1
+WARNING: Image format was not specified for 'hd.img' and probing guessed raw.
+         Automatically detecting the format is dangerous for raw images, write operations on block 0 will be restricted.
+         Specify the 'raw' format explicitly to remove the restrictions.

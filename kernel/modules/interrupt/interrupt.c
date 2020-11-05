@@ -53,6 +53,7 @@ void timer_server_func(void *args){
 		(cur_tcb->time_counter)++;
 	}
 	else{
+        printk("Schedule!Running Task ID : %d,Kernel Task:%d\n",get_running_progress()->tid,get_running_progress()->is_kern_thread);
 		schedule();
 	}
 }
@@ -62,7 +63,8 @@ void get_cr2();
 extern uint32_t _CR2;
 void page_fault_func(void * args){
 	get_cr2();
-	printk("INT 14:Page Fault---0x%h\n",_CR2);
+	struct TCB_t* cur_tcb=get_running_progress();
+	printk("INT 14:Page Fault:0x%h IN TASK:%d\n",_CR2,cur_tcb->tid);
 }
 
 extern void load_idt(uint32_t);     //声明idt装载使用的函数(定义在interrupt_asm.s中)

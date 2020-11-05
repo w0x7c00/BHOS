@@ -4,7 +4,8 @@
 #include "printk.h"
 #include "kern_log.h"
 #include "vmm.h"
-#define TIME_CONT  2 //默认时间片计数
+#include "user_task.h"
+#define TIME_CONT  2000 //默认时间片计数
 TCB_t main_TCB;    //内核主线程TCB
 TCB_t* cur_tcb;
 static char* LOG_SRC_THREADS = "THREADS";
@@ -30,12 +31,12 @@ static void kern_overflow_handler(TCB_t * tcb_ptr){
 
 //线程调度的第一步
 //主要功能： 1 页表切换   2  tss栈修改    
-static void active_task(TCB_t * next){
+// static void active_task(TCB_t * next){
 	
-}
+// }
 
-void threads_init(){
-	TCB_t *tcb_buffer_addr = &main_TCB;
+static void  _init_main_thread(TCB_t * main_tcb){
+	TCB_t *tcb_buffer_addr = main_tcb;
 	tcb_buffer_addr->tid = 0;        //主线程的编号为0  
 	tcb_buffer_addr->time_counter=0;
 	tcb_buffer_addr->time_left=TIME_CONT;
@@ -44,7 +45,14 @@ void threads_init(){
 	tcb_buffer_addr->page_addr=0;
 	tcb_buffer_addr->next = tcb_buffer_addr;
 	tcb_buffer_addr->kern_stack_top=0;
-	cur_tcb = tcb_buffer_addr;
+	tcb_buffer_addr->is_kern_thread = True;
+	tcb_buffer_addr->tcb_magic_number = TCB_MAGIC_NUMBER;
+}
+
+void threads_init(){
+	TCB_t *tcb_buffer_addr = &main_TCB;
+	_init_main_thread(&main_TCB);
+	cur_tcb = &main_TCB;
 }
 
 //用于创建线程的PCB
@@ -78,7 +86,8 @@ void create_thread(uint32_t tid,thread_function *func,void *args,uint32_t addr,u
 	*(--new_tcb->kern_stack_top)=args;     //压入初始化的参数与线程执行函数
 	*(--new_tcb->kern_stack_top)=exit;
 	*(--new_tcb->kern_stack_top)=func;
-	new_tcb->context.eflags = 0x200;
+	//此处存在修改！    0x200 ------->0x202    IF为1（打开硬中断）   IOPL为0（只允许内核访问IO）   1号位为1（eflags格式默认）
+	new_tcb->context.eflags = 0x202; 
 	new_tcb->context.esp =new_tcb->kern_stack_top;
 	asm volatile("sti");	
 }
@@ -112,11 +121,13 @@ void schedule(){      //调度函数  检测时间片为0时调用此函数
 		cur_tcb->time_left = TIME_CONT;    //如果只有一个线程 就再次给此线程添加时间片
 		return ;
 	}
+	//进行调度
 	TCB_t *now = cur_tcb;
 	TCB_t *next_tcb = cur_tcb->next;
 	next_tcb->time_left = TIME_CONT;
 	cur_tcb = next_tcb;
-	get_esp();      //有一个隐藏bug 需要call刷新寄存器
+	active_task(cur_tcb);
+	//get_esp();      //有一个隐藏bug 需要call刷新寄存器
 	switch_to(&(now->context),&(next_tcb->context));      
 }
 
@@ -132,6 +143,8 @@ void remove_thread(){
 	}
 }
 
+
+//本exit函数暂时只能被内核线程使用 作为自动退出
 void exit(){
 	remove_thread();
 	TCB_t *now = cur_tcb;

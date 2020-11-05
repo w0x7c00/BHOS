@@ -58,7 +58,7 @@ struct interrupt_stack{
 	uint32_t ebx;  	
 	uint32_t edx;  	
 	uint32_t ecx;  	
-	uint32_t eax;  	
+	uint32_t eax;
 	uint32_t int_no_2;  //多余的中断 用于中断处理是时暂时存放  	
 	uint32_t error_no;//中断错误号
 	uint32_t eip;

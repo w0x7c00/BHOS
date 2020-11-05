@@ -1,7 +1,8 @@
 #ifndef USER_TASK_H
 #define USER_TASK_H
 #include "types.h"
-
+#include "threads.h"
+#include "tss.h"
 
 typedef struct start_user_task_params
 {
@@ -14,5 +15,8 @@ typedef struct start_user_task_params
 
 typedef int USER_TASK_STATUS;
 #define USER_TASK_INIT_ERRO 0xFFFFFFFF
+#define INTR_TO_LEVEL3_EFLAGS  0x202//IF为1（打开硬中断）   IOPL为0（只允许内核访问IO）
 void user_task_test();
+void active_task(TCB_t* tcb_ptr);
+void create_user_task(uint32_t tid,start_user_task_params_t*args);
 #endif

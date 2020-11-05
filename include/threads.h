@@ -55,7 +55,7 @@ typedef void * thread_function(void * args);       //定义线程的实际执行
 
 bool check_kern_stack_overflow(TCB_t* tcb_ptr);    
 
-extern void switch_to(void * cur_coontext_ptr,void * next_context_ptr);    //使用汇编完成的切换上下文函数
+extern void switch_to(void * cur_context_ptr,void * next_context_ptr);    //使用汇编完成的切换上下文函数
 
 extern uint32_t get_esp();
 

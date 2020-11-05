@@ -9,8 +9,7 @@
 #include "kern_log.h"
 #include "threads.h"
 //内核已使用的页数量(1MB以下也是已使用的部分)
-bool USER_PAGE_DIR_IS_LOADED  =  False;         //定义全局变量表示是否已经加载过第一个用户进程页表
-
+bool USER_PAGE_DIR_IS_LOADED  =  True;         //定义全局变量表示是否已经加载过第一个用户进程页表
 
 bitmap kern_vmm_pool;
 
@@ -51,7 +50,7 @@ static void create_kern_page_table(uint32_t pde_vaddr){
     //first:alloc a physic page,don`t alloc from vmm!
     pm_alloc_t pm = pmm_alloc_one_page();
     if(pm.state!=0){
-        STOP(LOG_SRC_VMM,"vmm.c/1");
+        STOP(LOG_SRC_VMM,"Fail To Create Kernel Page Table!STOP!");
     }
     else{
         uint32_t addr = pm.addr;
@@ -256,7 +255,8 @@ static bool vmm_user_check_pt_present(uint32_t user_pdt_vaddr,uint32_t target_va
     uint32_t times = (target_vaddr>>22)&0x000003FF;
     uint32_t pde_vaddr = user_pdt_vaddr+times*4;     //目标pde虚拟地址
     uint32_t * ptr = (uint32_t*)pde_vaddr;
-    if(*ptr==(*ptr)|0x00000001){
+    //    == 优先级比 |    & 高
+    if(*ptr==((*ptr)|0x00000001)){
         //表示存在present
         return True;
     }
@@ -269,6 +269,7 @@ static bool vmm_user_check_pt_present(uint32_t user_pdt_vaddr,uint32_t target_va
 
 //创建的页表需要在内核中分配
 static bool create_user_page_table(uint32_t pde_vaddr){
+    //pde_vaddr 0xC02BABFC
     //首先在内核中获取虚拟页
     uint32_t re_vaddr = vmm_kern_alloc();    
     if(re_vaddr==KERN_VMM_ALLOC_ERRO){
@@ -285,7 +286,7 @@ static bool create_user_page_table(uint32_t pde_vaddr){
         }
         else{
         //进行用户页表映射
-            uint32_t * ptr = (uint32_t *)pde_vaddr;
+            uint32_t *ptr = (uint32_t *)pde_vaddr;
             *ptr = (page_paddr&0xFFFFF000)+PAGE_DESC_RW_W+PAGE_DESC_US_U+PAGE_DESC_G+PAGE_DESC_P;
         }
         return True;
@@ -295,10 +296,11 @@ static bool create_user_page_table(uint32_t pde_vaddr){
 //第一个参数是需要分配的虚拟内存池对应的进程
 //第二个参数是需要分配的目标地址
 //默认要求此进程已经加载并且正在执行中
-uint32_t vmm_user_alloc_one_page(TCB_t * tcb_ptr,uint32_t vaddr){
+uint32_t vmm_user_alloc_one_page(TCB_t * tcb_ptr,uint32_t vaddr){    
     if(!USER_PAGE_DIR_IS_LOADED){
         goto error_out;
     }
+
     bool is_kern_thread = tcb_ptr->is_kern_thread;
     if(is_kern_thread){
         goto error_out;
@@ -306,15 +308,16 @@ uint32_t vmm_user_alloc_one_page(TCB_t * tcb_ptr,uint32_t vaddr){
     bitmap user_vmm_pool = tcb_ptr->user_vmm_pool;    //bitmap
     uint32_t user_pdt_vaddr = tcb_ptr->pdt_vaddr;    //pdt
 
-
-
     uint32_t vaddr_get=bitmap_alloc_one_page(user_vmm_pool,vaddr);
     if(vaddr_get == BITMAP_RETURN_ERRO){
         goto clean_bitmap_alloc;
     }
     else{
-
         if(vmm_user_check_pt_present(user_pdt_vaddr,vaddr)){
+         asm volatile("cli");
+            printk("-0x%h\n",user_pdt_vaddr);
+         asm volatile("sti");
+
             // the page table is present,do nothing
         }
         else{
@@ -337,17 +340,20 @@ uint32_t vmm_user_alloc_one_page(TCB_t * tcb_ptr,uint32_t vaddr){
         uint32_t page_desc_vaddr = get_pte(vaddr);
         //修改页表
         //注意一点：这个page_desc_vaddr只能通过页目录最后一项找到，所以必须要用户页表加载以后才可以寻找到
+        //此时会产生page错误？？？？？
+        //FFEFFF20
         *((uint32_t*)page_desc_vaddr) = (phy_page.addr&0xFFFFF000)+PAGE_DESC_RW_W+PAGE_DESC_US_U+PAGE_DESC_G+PAGE_DESC_P;
+
         asm volatile ("invlpg (%0)" : : "a" (vaddr&0xFFFFF000));
         return vaddr&0xFFFFF000;
     }
-
     //clean以后会自动执行错误的返回
     clean_bitmap_alloc:
         bitmap_release_one_page(kern_vmm_pool,vaddr);
     error_out:
         return USER_VMM_ALLOC_ERRO;
 }
+
 uint32_t vmm_user_alloc(uint32_t user_pdt_vaddr){
 
 }
