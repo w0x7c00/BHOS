@@ -8,6 +8,7 @@
 #include "string.h"
 #include "kern_log.h"
 #include "threads.h"
+#include "common_asm.h"
 //内核已使用的页数量(1MB以下也是已使用的部分)
 bool USER_PAGE_DIR_IS_LOADED  =  True;         //定义全局变量表示是否已经加载过第一个用户进程页表
 
@@ -64,6 +65,16 @@ static void create_kern_page_table(uint32_t pde_vaddr){
 
 void vmm_init(){
        vmm_kern_init(); 
+}
+
+//cancel first mapping page(from 0x00000000 size 4MB)
+void vmm_pre_init(){
+    //kern_dir_table_paddr
+    uint32_t kern_dir_table_vaddr = kern_dir_table_paddr+0xC0000000;
+    //release first pde
+    *((uint32_t *)kern_dir_table_vaddr) = 0x00000000;
+    //reload page table
+    reload_kern_page_table(kern_dir_table_paddr);
 }
 
 //通过虚拟地址 获取对应的页表项虚拟地址

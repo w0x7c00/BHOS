@@ -116,6 +116,7 @@ void kputs(char *input_str){
 
 void vga_init(){
 	clear_screen();
+
 }
 
 void vga_test_clear_last_row(){

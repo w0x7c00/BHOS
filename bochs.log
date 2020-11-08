@@ -32,37 +32,37 @@
 00000000000i[     ]   SB16 support: yes
 00000000000i[     ]   USB support: yes
 00000000000i[     ]   VGA extension support: vbe cirrus
-00000000000i[MEM0 ] allocated memory at 0x7fc02d6ba010. after alignment, vector=0x7fc02d6bb000
+00000000000i[MEM0 ] allocated memory at 0x7f47b09be010. after alignment, vector=0x7f47b09bf000
 00000000000i[MEM0 ] 32.00MB
 00000000000i[MEM0 ] mem block size = 0x00100000, blocks=32
 00000000000i[MEM0 ] rom at 0xfffe0000/131072 ('/usr/share/bochs/BIOS-bochs-latest')
-00000000000i[     ] lt_dlhandle is 0x55fc3f7e7300
+00000000000i[     ] lt_dlhandle is 0x560dd26d3300
 00000000000i[PLGIN] loaded plugin libbx_hdimage.so
-00000000000i[     ] lt_dlhandle is 0x55fc3f9abe90
+00000000000i[     ] lt_dlhandle is 0x560dd2897e90
 00000000000i[PLGIN] loaded plugin libbx_pci.so
-00000000000i[     ] lt_dlhandle is 0x55fc3f9aca20
+00000000000i[     ] lt_dlhandle is 0x560dd2898a20
 00000000000i[PLGIN] loaded plugin libbx_pci2isa.so
-00000000000i[     ] lt_dlhandle is 0x55fc3f9ad430
+00000000000i[     ] lt_dlhandle is 0x560dd2899430
 00000000000i[PLGIN] loaded plugin libbx_acpi.so
-00000000000i[     ] lt_dlhandle is 0x55fc3f9ade40
+00000000000i[     ] lt_dlhandle is 0x560dd2899e40
 00000000000i[PLGIN] loaded plugin libbx_cmos.so
-00000000000i[     ] lt_dlhandle is 0x55fc3f9ae780
+00000000000i[     ] lt_dlhandle is 0x560dd289a780
 00000000000i[PLGIN] loaded plugin libbx_dma.so
-00000000000i[     ] lt_dlhandle is 0x55fc3f9af220
+00000000000i[     ] lt_dlhandle is 0x560dd289b220
 00000000000i[PLGIN] loaded plugin libbx_pic.so
-00000000000i[     ] lt_dlhandle is 0x55fc3f9afad0
+00000000000i[     ] lt_dlhandle is 0x560dd289bad0
 00000000000i[PLGIN] loaded plugin libbx_pit.so
-00000000000i[     ] lt_dlhandle is 0x55fc3f9b0510
+00000000000i[     ] lt_dlhandle is 0x560dd289c510
 00000000000i[PLGIN] loaded plugin libbx_floppy.so
-00000000000i[     ] lt_dlhandle is 0x55fc3f9b1110
+00000000000i[     ] lt_dlhandle is 0x560dd289d110
 00000000000i[PLGIN] loaded plugin libbx_vga.so
-00000000000i[     ] lt_dlhandle is 0x55fc3f9b1980
+00000000000i[     ] lt_dlhandle is 0x560dd289d980
 00000000000i[PLGIN] loaded plugin libbx_ioapic.so
-00000000000i[     ] lt_dlhandle is 0x55fc3f9b21d0
+00000000000i[     ] lt_dlhandle is 0x560dd289e1d0
 00000000000i[PLGIN] loaded plugin libbx_keyboard.so
-00000000000i[     ] lt_dlhandle is 0x55fc3f9b2b60
+00000000000i[     ] lt_dlhandle is 0x560dd289eb60
 00000000000i[PLGIN] loaded plugin libbx_harddrv.so
-00000000000i[     ] lt_dlhandle is 0x55fc3f9c4c90
+00000000000i[     ] lt_dlhandle is 0x560dd28b0c90
 00000000000i[PLGIN] loaded plugin libbx_pci_ide.so
 00000000000i[PLGIN] init_dev of 'pci' plugin device by virtual method
 00000000000i[PCI  ] 440FX Host bridge present at device 0, function 0
@@ -70,7 +70,7 @@
 00000000000i[PCI  ] PIIX3 PCI-to-ISA bridge present at device 1, function 0
 00000000000i[PLGIN] init_dev of 'cmos' plugin device by virtual method
 00000000000i[CMOS ] Using local time for initial clock
-00000000000i[CMOS ] Setting initial clock to: Thu Nov  5 20:55:10 2020 (time0=1604580910)
+00000000000i[CMOS ] Setting initial clock to: Fri Nov  6 18:04:45 2020 (time0=1604657085)
 00000000000i[PLGIN] init_dev of 'dma' plugin device by virtual method
 00000000000i[DMA  ] channel 4 used by cascade
 00000000000i[PLGIN] init_dev of 'pic' plugin device by virtual method
@@ -175,6 +175,7 @@
 00000000000i[XGUI ] Mouse capture off
 00000000000i[     ] set SIGINT handler to bx_debug_ctrlc_handler
 00000000000i[XGUI ] Mouse capture off
+00000000000i[XGUI ] Mouse capture off
 00000000025i[MEM0 ] allocate_block: block=0x0 used 0x1 of 0x20
 00000004661i[BIOS ] $Revision: 11318 $ $Date: 2012-08-06 19:59:54 +0200 (Mo, 06. Aug 2012) $
 00000319074i[KBD  ] reset-disable command received
@@ -225,295 +226,38 @@
 00018546164i[BIOS ] int13_harddisk: function 41, unmapped device for ELDL=81
 00018549844i[BIOS ] int13_harddisk: function 08, unmapped device for ELDL=81
 00018553505i[BIOS ] *** int 15h function AX=00c0, BX=0000 not yet supported!
-00027214616i[MEM0 ] allocate_block: block=0x2 used 0x4 of 0x20
-00033453842e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00033473017e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00033530580e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00033549755e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00033568930e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00033654576e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00033825887e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00033997198e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00034082844e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00034254155e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00034425466e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00034511112e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00034682423e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00034853734e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00034939380e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00035110691e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00035282002e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00035367648e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00035538959e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00035710270e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00035795916e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00035967227e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00036138538e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00036224184e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00036395495e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00036566806e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00036652452e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00036823763e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00037080739e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00037252050e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00037509026e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00037680337e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00037937313e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00038108624e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00038365600e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00038536911e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00038793887e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00038965198e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00039222174e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00039393485e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00039650461e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00039821772e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00040078748e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00040250059e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00040507035e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00040678346e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00040935322e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00041106633e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00041363609e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00041534920e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00041791896e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00041963207e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00042220183e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00042391494e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00042648470e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00042819781e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00043076757e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00043248068e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00043505044e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00043676355e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00043933331e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00044104642e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00044361618e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00044532929e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00044789905e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00044961216e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00045218192e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00045389503e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00045646479e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00045817790e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00046074766e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00046246077e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00046503053e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00046674364e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00046931340e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00047102651e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00047359627e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00047530938e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00047787914e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00047959225e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00048216201e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00048387512e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00048644488e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00048815799e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00049072775e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00049244086e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00049501062e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00049672373e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00049929349e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00050100660e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00050357636e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00050528947e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00050785923e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00050957234e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00051214210e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00051385521e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00051642497e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00051813808e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00052070784e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00052242095e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00052499071e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00052670382e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00052927358e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00053098669e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00053355645e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00053526956e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00053783932e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00053955243e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00054212219e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00054383530e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00054640506e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00054811817e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00055068793e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00055240104e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00055497080e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00055668391e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00055925367e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00056096678e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00056353654e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00056524965e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00056781941e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00056953252e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00057210228e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00057381539e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00057638515e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00057809826e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00058066802e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00058238113e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00058495089e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00058666400e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00058923376e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00059094687e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00059351663e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00059522974e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00059779950e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00059951261e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00060208237e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00060379548e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00060636524e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00060807835e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00061064811e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00061236122e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00061321768e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00061493160e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00061664471e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00061921447e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00062092758e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00062349734e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00062521045e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00062778021e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00062949332e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00063206308e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00063377619e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00063634595e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00063805906e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00064062882e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00064234193e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00064491169e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00064662480e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00064919456e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00065090767e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00065176413e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00065347805e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00065519116e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00065776092e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00065947403e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00066204379e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00066375690e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00066632666e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00066803977e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00067060953e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00067232264e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00067489240e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00067660551e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00067917527e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00068088838e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00068345814e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00068517125e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00068774101e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00068945412e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00069031058e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00069202450e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00069373761e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00069630737e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00069802048e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00070059024e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00070230335e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00070487311e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00070658622e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00070915598e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00071086909e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00071343885e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00071515196e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00071772172e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00071943483e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00072200459e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00072371770e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00072628746e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00072800057e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00072885703e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00073057095e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00073228406e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00073485382e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00073656693e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00073913669e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00074084980e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00074341956e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00074513267e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00074770243e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00074941554e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00075198530e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00075369841e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00075626817e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00075798128e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00076055104e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00076226415e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00076483391e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00076654702e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00076740348e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00076911740e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00077083051e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00077340027e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00077511338e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00077768314e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00077939625e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00078196601e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00078367912e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00078624888e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00078796199e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00079053175e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00079224486e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00079481462e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00079652773e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00079909749e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00080081060e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00080338036e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00080509347e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00080766323e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00080937634e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00081023280e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00081194672e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00081365983e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00081622959e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00081794270e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00082051246e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00082222557e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00082479533e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00082650844e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00082907820e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00083079131e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00083336107e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00083507418e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00083764394e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00083935705e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00084192681e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00084363992e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00084620968e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00084792279e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00084877925e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00085049317e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00085220628e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00085477604e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00085648915e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00085905891e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00086077202e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00086334178e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00086505489e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00086762465e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00086933776e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00087190752e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x27)
-00087204000p[XGUI ] >>PANIC<< POWER button turned off.
-00087204000i[CPU0 ] CPU is in protected mode (active)
-00087204000i[CPU0 ] CS.mode = 32 bit
-00087204000i[CPU0 ] SS.mode = 32 bit
-00087204000i[CPU0 ] EFER   = 0x00000000
-00087204000i[CPU0 ] | EAX=c00b8000  EBX=c0209000  ECX=0000000f  EDX=00000f5e
-00087204000i[CPU0 ] | ESP=c0291d40  EBP=c0291d68  ESI=00058d8a  EDI=00058d79
-00087204000i[CPU0 ] | IOPL=0 id vip vif ac vm rf nt of df if tf sf zf AF pf cf
-00087204000i[CPU0 ] | SEG sltr(index|ti|rpl)     base    limit G D
-00087204000i[CPU0 ] |  CS:0008( 0001| 0|  0) 00000000 ffffffff 1 1
-00087204000i[CPU0 ] |  DS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
-00087204000i[CPU0 ] |  SS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
-00087204000i[CPU0 ] |  ES:0010( 0002| 0|  0) 00000000 ffffffff 1 1
-00087204000i[CPU0 ] |  FS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
-00087204000i[CPU0 ] |  GS:0018( 0003| 0|  0) 000b8000 00007fff 1 1
-00087204000i[CPU0 ] | EIP=c0206f60 (c0206f60)
-00087204000i[CPU0 ] | CR0=0xe0000011 CR2=0x027d8424
-00087204000i[CPU0 ] | CR3=0x00101000 CR4=0x00000000
-00087204000i[CMOS ] Last time is 1604580931 (Thu Nov  5 20:55:31 2020)
-00087204000i[XGUI ] Exit
-00087204000i[CTRL ] quit_sim called with exit code 1
+00043390313i[MEM0 ] allocate_block: block=0x2 used 0x4 of 0x20
+00047939606i[XGUI ] Mouse capture off
+00047939607i[XGUI ] Mouse capture off
+00047939608i[XGUI ] Mouse capture off
+00047939609i[XGUI ] Mouse capture off
+00047939610i[XGUI ] Mouse capture off
+00047939613i[XGUI ] Mouse capture off
+00047939614i[XGUI ] Mouse capture off
+00048362534i[XGUI ] Mouse capture off
+00048860762i[XGUI ] Mouse capture off
+00048863394i[XGUI ] Mouse capture off
+00048863424i[XGUI ] Mouse capture off
+00048863425i[XGUI ] Mouse capture off
+00048863426i[XGUI ] Mouse capture off
+00136008000p[XGUI ] >>PANIC<< POWER button turned off.
+00136008000i[CPU0 ] CPU is in protected mode (active)
+00136008000i[CPU0 ] CS.mode = 32 bit
+00136008000i[CPU0 ] SS.mode = 32 bit
+00136008000i[CPU0 ] EFER   = 0x00000000
+00136008000i[CPU0 ] | EAX=c0209000  EBX=000005be  ECX=00000320  EDX=00000330
+00136008000i[CPU0 ] | ESP=c0291e08  EBP=c0291e30  ESI=00058d8a  EDI=00058d79
+00136008000i[CPU0 ] | IOPL=0 id vip vif ac vm rf nt of df if tf sf zf af PF cf
+00136008000i[CPU0 ] | SEG sltr(index|ti|rpl)     base    limit G D
+00136008000i[CPU0 ] |  CS:0008( 0001| 0|  0) 00000000 ffffffff 1 1
+00136008000i[CPU0 ] |  DS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+00136008000i[CPU0 ] |  SS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+00136008000i[CPU0 ] |  ES:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+00136008000i[CPU0 ] |  FS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+00136008000i[CPU0 ] |  GS:0018( 0003| 0|  0) 000b8000 00007fff 1 1
+00136008000i[CPU0 ] | EIP=c0206ed3 (c0206ed3)
+00136008000i[CPU0 ] | CR0=0xe0000011 CR2=0xbfffff20
+00136008000i[CPU0 ] | CR3=0x00101000 CR4=0x00000000
+00136008000i[CMOS ] Last time is 1604657119 (Fri Nov  6 18:05:19 2020)
+00136008000i[XGUI ] Exit
+00136008000i[CTRL ] quit_sim called with exit code 1

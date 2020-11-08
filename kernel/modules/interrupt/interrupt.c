@@ -3,6 +3,7 @@
 #include "types.h"
 #include "printk.h"
 #include "threads.h"
+#include "common_asm.h"
 
 int_server_func_t int_server_func_list[256];
 interrupt_discripter_t idt_entries[256];    //中断描述符表 idt_entries为表首指针
@@ -39,16 +40,16 @@ static void registe_interrupt(int int_no,int_server_func_t target_func){
 	int_server_func_list[int_no] = target_func;
 }
 
-void default_server_func(void *args){
-	//printk("Default Int server function!\n");
+void default_server_func(uint32_t* int_no,void *args){
+	printk("INT %d Default Int server function!\n",int_no);
 }
 
 
 extern TCB_t * cur_tcb; 
 
 //时钟中断函数 主要用于线程调度
-void timer_server_func(void *args){
-	if(cur_tcb->time_left!=0){
+void timer_server_func(uint32_t int_no,void *args){
+    if(cur_tcb->time_left!=0){
 		(cur_tcb->time_left)--;
 		(cur_tcb->time_counter)++;
 	}
@@ -61,10 +62,15 @@ void timer_server_func(void *args){
 //cr2 保存引起缺页的线性地址
 void get_cr2();
 extern uint32_t _CR2;
-void page_fault_func(void * args){
+void page_fault_func(uint32_t int_no,void * args){
 	get_cr2();
 	struct TCB_t* cur_tcb=get_running_progress();
-	printk("INT 14:Page Fault:0x%h IN TASK:%d\n",_CR2,cur_tcb->tid);
+    if(cur_tcb==NULL){
+        printk("INT 14:Page Fault:0x%h IN before init threads\n",_CR2);
+    }
+	else{
+	    printk("INT 14:Page Fault:0x%h IN TASK:%d\n",_CR2,cur_tcb->tid);
+	}
 }
 
 extern void load_idt(uint32_t);     //声明idt装载使用的函数(定义在interrupt_asm.s中)
@@ -179,12 +185,13 @@ void idt_init(){
 	lidt_target.base = (uint32_t)&idt_entries;
 	timer_init(1000);
 	load_idt((uint32_t)&lidt_target);
-    sti();
+    //can`t open hardware interrupt before threads module init
+	cli();
 }
 
 // INT路由函数
 void int_func_route(int int_no,void * args){
-	int_server_func_list[int_no](args);
+	int_server_func_list[int_no](int_no,args);
 }
 
 void cli(){
@@ -192,4 +199,36 @@ void cli(){
 }
 void sti(){
     asm volatile("sti");
+}
+
+
+static bool get_int_flag(){
+    uint32_t eflag_mem=NULL;
+    uint32_t * eflag = &eflag_mem;
+    get_eflag(eflag);
+    if(((eflag_mem>>9)&0x00000001) == 1){
+        return True;
+    }
+    else{
+        return False;
+    }
+}
+
+bool cli_condition(){
+    if(get_int_flag()){
+        cli();
+        return True;
+    }
+    else{
+        return False;
+    }
+}
+
+void sti_condition(bool condition){
+    if(condition){
+        sti();
+    }
+    else{
+        cli();
+    }
 }

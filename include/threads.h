@@ -71,5 +71,9 @@ TCB_t* create_TCB(uint32_t tid,uint32_t page_addr,uint32_t page_counte);
 
 TCB_t* get_running_progress();
 
+void thread_block();
+
+void thread_wakeup(TCB_t * target_thread);
+
 void exit();     //线程结束函数 关闭中断->移出执行链表->回收内存空间->开启中断
 #endif

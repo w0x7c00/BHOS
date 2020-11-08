@@ -1,7 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="BHOS-DEBUG" type="CompoundRunConfigurationType">
     <toRun name="RemoteDebug" type="CLion_Remote" />
-    <toRun name="MakeAndRun" type="ShConfigurationType" />
+    <toRun name="SimpleDebug" type="ShConfigurationType" />
     <method v="2" />
   </configuration>
 </component>

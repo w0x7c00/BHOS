@@ -25,20 +25,14 @@ boot_start:        ;此处是内核加载后调用的第一个函数
     mov eax,kern_dir_table
     and eax,0xFFFFF000
     mov cr3,eax
-    mov eax,cr0
 
     ;加载页表 启用分页
+    mov eax,cr0
     or eax,0x80000000
     mov cr0,eax
     jmp dword SELECTOR_CODE:boot_start_after_set_paging
 
-[GLOBAL reload_kern_page]
-reload_kern_page:
-    mov eax,kern_dir_table
-    and eax,0xFFFFF000
-    mov cr3,eax
-    mov eax,cr0
-    ret
+
 set_page:
     mov eax,4095      ;4096-1
     .clear_dir_table:             ;重置页目录表内存空间
@@ -62,32 +56,33 @@ set_page:
     mov ax,4096
     mul  cx      ;结果在eax
     add eax,kern_page_table
-    or eax,PG_US_U|PG_RW_W|PG_P     ;eax存放了一张页表信息    也就是一条页目录项
+    or eax,PG_US_S|PG_RW_W|PG_P     ;eax存放了一张页表信息    也就是一条页目录项
     mov [kern_dir_table+ecx*4+0xc00],eax
     dec cx
     jnz .create_pde
     mov eax,kern_page_table
-    or eax,PG_US_U|PG_RW_W|PG_P
+    or eax,PG_US_S|PG_RW_W|PG_P
     mov [kern_dir_table+0xc00],eax
     mov [kern_dir_table],eax    ;映射0x0起始4MB    这一段映射只会使用一次
+
 
     mov eax,1023
     .create_pte:              
     mov ebx,eax
     sal ebx,12
     and ebx,0xFFFFF000
-    or ebx,PG_US_U|PG_RW_W|PG_P
+    or ebx,PG_US_S|PG_RW_W|PG_P
     mov [kern_page_table+eax*4],ebx
     dec eax
     jnz .create_pte
     mov ebx,0
-    or ebx,PG_US_U|PG_RW_W|PG_P
+    or ebx,PG_US_S|PG_RW_W|PG_P
     mov [kern_page_table],ebx
     
     ;修改最后一个页目录项   映射到页目录起始地址
     .change_last_pde
     mov eax,kern_dir_table
-    or eax,PG_US_U|PG_RW_W|PG_P
+    or eax,PG_US_S|PG_RW_W|PG_P
     mov [kern_dir_table+0xc00+255*4],eax
 
     ret

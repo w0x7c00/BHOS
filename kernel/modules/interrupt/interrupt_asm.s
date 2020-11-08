@@ -23,6 +23,7 @@ isr%1:
 
 ;这个中断流程是内核与用户共用的
 [EXTERN int_func_route]
+[EXTERN print_debug_1]
 pre_handle:
 	pushad               ;压入八个32位
 	mov ecx,[ss:esp+32]
@@ -75,10 +76,13 @@ pre_handle:
 	mov es,ax
 	popad
 	add esp,8
+	push eax
 	mov al,0x20
 	out 0xA0,al
 	out 0x20,al
+	pop eax
 ;此处的al是否需要保存？
+;yes!!!!!!!!!!!!!
 	iret
 
 

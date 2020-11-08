@@ -2,7 +2,7 @@
 #define INTERRUPT_H
 #include "types.h"
 //中断服务例程函数指针类型   传入的是eax的值 指向函数参数压栈位置
-typedef void* (*int_server_func_t)(void *);    
+typedef void* (*int_server_func_t)(uint32_t ,void *);
 
 typedef
 struct int_disc{
@@ -50,7 +50,8 @@ struct interrupt_stack{
 	uint32_t int_no_1;//中断号
 	void * args;   //中断参数
 	uint32_t gs;
-	uint32_t fs;  	
+	uint32_t fs;
+	uint32_t es;
 	uint32_t edi;  	
 	uint32_t esi;  	
 	uint32_t ebp;  	
@@ -73,5 +74,9 @@ void cli();
 void sti();
 
 void idt_init();
+
+bool cli_condition();
+
+void sti_condition(bool condition);
 
 #endif

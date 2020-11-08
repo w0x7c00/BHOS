@@ -5,6 +5,7 @@
 #include "kern_log.h"
 #include "vmm.h"
 #include "user_task.h"
+#include "interrupt.h"
 #define TIME_CONT  2000 //默认时间片计数
 TCB_t main_TCB;    //内核主线程TCB
 TCB_t* cur_tcb;
@@ -61,7 +62,7 @@ TCB_t* create_TCB(uint32_t tid,uint32_t page_addr,uint32_t page_counte){
 	tcb_buffer_addr->tid = tid;         
 	tcb_buffer_addr->time_counter=0;
 	tcb_buffer_addr->time_left=TIME_CONT;
-	tcb_buffer_addr->task_status = TASK_RUNNING;
+	tcb_buffer_addr->task_status = TASK_READY;
 	tcb_buffer_addr->page_counte=page_counte; 
 	tcb_buffer_addr->page_addr=page_addr;
 	tcb_buffer_addr->kern_stack_top=page_addr+page_counte*PAGE_SIZE;    
@@ -111,28 +112,84 @@ void create_kern_thread(uint32_t tid,thread_function *func,void *args){
 	create_thread(tid,func,args,TCB_page,page_counte,is_kern_thread,default_bitmap,default_pdt_vaddr);
 }
 
-void schedule(){      //调度函数  检测时间片为0时调用此函数
+void schedule(){
+    //check if the thread module is available
+    if(get_running_progress()==NULL){
+        return ;
+    }
+    //调度函数  检测时间片为0时调用此函数
 	//首先判定现在的线程内核栈是否溢出
 	if(!check_kern_stack_overflow(get_running_progress())){
 		//溢出处理！！！
 		kern_overflow_handler(get_running_progress());
 	}
-	if(cur_tcb->next==cur_tcb){
-		cur_tcb->time_left = TIME_CONT;    //如果只有一个线程 就再次给此线程添加时间片
-		return ;
-	}
+
+	//find next thread
+    TCB_t * probe = cur_tcb;
+    while(True){
+        probe = probe->next;
+        if(probe==cur_tcb){
+            if(probe->task_status!=TASK_READY&&probe->task_status!=TASK_RUNNING){
+                // all of the threads are blocked,which is not allowed
+                //walk up cur thread
+                WARNING(LOG_SRC_THREADS,"ALL OF THE THREADS ARE BLOCKED,SELF WAKE UP ONE!WARNNING!");
+                cur_tcb->time_left = TIME_CONT;    //如果只有一个线程 就再次给此线程添加时间片
+                cur_tcb->task_status = TASK_RUNNING;
+                return ;
+            }
+            else{
+                //only cur thread can run
+                cur_tcb->time_left =TIME_CONT;
+                return ;
+            }
+        }
+        else{
+            if(probe->task_status== TASK_READY){
+                break;
+            }
+            else{
+                continue;
+            }
+        }
+    }
 	//进行调度
 	TCB_t *now = cur_tcb;
-	TCB_t *next_tcb = cur_tcb->next;
+	TCB_t *next_tcb = probe;
+
+	//if cur task is blocked,it will not be set ready or cur thread will running next schedule
+	if(now->task_status == TASK_RUNNING){
+	    now->task_status = TASK_READY;
+	}
+	next_tcb->task_status = TASK_RUNNING;
 	next_tcb->time_left = TIME_CONT;
 	cur_tcb = next_tcb;
 	active_task(cur_tcb);
-	//get_esp();      //有一个隐藏bug 需要call刷新寄存器
 	switch_to(&(now->context),&(next_tcb->context));      
 }
 
+//block running threads , which must be called in kernel state(level 0)
+//however,when the task is in user state(level 3),can use
+//syscall to jump in kernel state, then invoke the function
+
+void thread_block(){
+    //cli and sti is used to sync to access the threads list and it`s node information
+    TCB_t* now = get_running_progress();
+    now->task_status = TASK_BLOCKED;
+    bool condition=cli_condition();
+    schedule();
+    //reload the interrupt flag before block
+    sti_condition(condition);
+}
+
+void thread_wakeup(TCB_t * target_thread){
+    enum task_status_t restore_status = get_running_progress()->task_status;
+    bool  condition = cli_condition();
+    target_thread->task_status = TASK_READY;
+    sti_condition(condition);
+}
+
 void remove_thread(){
-	asm volatile("cli");
+	cli();
 	if(cur_tcb->tid==0)
 		printk("ERRO:main thread can`t use function exit\n");
 	else{

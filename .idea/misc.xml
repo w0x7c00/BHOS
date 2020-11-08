@@ -5,7 +5,7 @@
     <option name="linkedExternalProjectsSettings">
       <MakefileProjectSettings>
         <option name="analyzerType" value="OUTPUT_PARSING" />
-        <option name="buildOptions" value="" />
+        <option name="buildOptions" value="--jobs=1" />
         <option name="buildTarget" value="all" />
         <option name="cleanTarget" value="clean" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />

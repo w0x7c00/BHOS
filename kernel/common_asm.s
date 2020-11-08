@@ -15,10 +15,33 @@ section .text
 ;------------------GLOBAL-------------------
 [GLOBAL reload_gdt]
 [GLOBAL exit_int]
+[GLOBAL reload_kern_page_table]
+[GLOBAL get_eflag]
 ;------------------------------------------------
+
+;void get_eflag(uint32_t *eflag);
+get_eflag:
+    ;get first parame
+    mov eax,[esp+4]
+    push ebx
+    pushf
+    pop ebx
+    mov [eax],ebx
+    pop ebx
+    ret
 
 reload_gdt:
     lgdt [gdt_ptr]
+    ret
+
+;parame1   pdt_paddr
+;origin format:    void reload_kern_page_table(uint32_t pdt_paddr)
+reload_kern_page_table:
+    ;get parame 1 from [esp+4]
+    mov eax,[esp+4]
+    and eax,0xFFFFF000
+    ;relaod cr3
+    mov cr3,eax
     ret
 
 ;参数1   esp的值
@@ -27,6 +50,7 @@ exit_int:
     mov eax,[esp+4]
     mov esp,eax       ;修改栈位置
     ;以下部分是模拟中断中的执行返回(见interrupt_asm.s)
+
     add esp,8
 	pop eax
 	mov gs,ax
@@ -35,8 +59,7 @@ exit_int:
 	pop eax
 	mov es,ax
 	popad
-	;why??????
-	add esp,4
+	add esp,8
 
 
 
@@ -46,3 +69,4 @@ exit_int:
 	;out 0xA0,al
 	;out 0x20,al
 	iret
+

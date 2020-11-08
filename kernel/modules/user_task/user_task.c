@@ -65,12 +65,12 @@ void release_user_task_bitmap(bitmap bm){
     }
 }
 
-static void pdt_mapping_helper(uint32_t pte_vaddr){
+static void pdt_mapping_helper(uint32_t pdt_vaddr){
     //copy length is 1024B
     //只映射后256项（共1024项 ，每项4B，共映射1024B）
-    memcpy(pte_vaddr+0xC00,get_pde(0xC0000000),1024);
+    memcpy(pdt_vaddr+0xC00,get_pde(0xC0000000),1024);
 
-    memcpy(pte_vaddr,get_pde(0x0),4);
+    //memcpy(pdt_vaddr,get_pde(0x0),4);
 }
 
 static void mapping_last_pde(uint32_t  last_pte_vaddr,uint32_t pdt_paddr){
@@ -162,10 +162,11 @@ void start_user_task(start_user_task_params_t* params_ptr){
             uint32_t kern_stack_max_addr = cur_tcb->page_addr + cur_tcb->page_counte*PAGE_SIZE;
 //            interrupt_stack_t  * int_stack = (interrupt_stack_t*)(kern_stack_max_addr - sizeof(interrupt_stack_t));
             interrupt_stack_t int_stack_temp;
-            int_stack_temp.int_no_1 = 0;
+            int_stack_temp.int_no_1 = 1;
             int_stack_temp.args = (void * )0;
             int_stack_temp.gs=0;
             int_stack_temp.fs=0;
+            int_stack_temp.es=0;
             int_stack_temp.edi = 0;
             int_stack_temp.esi = 0;
             int_stack_temp.ebp =0;

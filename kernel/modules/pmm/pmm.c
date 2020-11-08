@@ -316,6 +316,7 @@ static uint32_t find_and_pop_block(uint32_t target_page_no,page_c_t ph){
 //从multi_boot结构体中取出需要管理的地址空间大小 
 static uint32_t get_max_pm_addr(){          //qemu默认为128M
 	uint32_t max_addr=0;
+	uint32_t p = (uint32_t)mboot_ptr;
 	for(pm_entry_t * pm_entry_cur = mboot_ptr->mmap_addr;pm_entry_cur<mboot_ptr->mmap_addr+mboot_ptr->mmap_length;pm_entry_cur++){
 		printk("[INFO][PMM]physic_mem_block:0x%h-0x%h-0x%h-%d\n",pm_entry_cur->base_addr_low,pm_entry_cur->length_low,pm_entry_cur->base_addr_low+pm_entry_cur->length_low,pm_entry_cur->type);
 		if(pm_entry_cur->type==1&&max_addr<pm_entry_cur->base_addr_low+pm_entry_cur->length_low)

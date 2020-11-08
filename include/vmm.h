@@ -23,6 +23,7 @@ extern uint32_t kern_dir_table_paddr;
 extern uint32_t kern_page_table_paddr;
 void reload_kern_page();
 void vmm_init();
+void vmm_pre_init();
 void vmm_test();
 uint32_t vmm_kern_alloc();
 uint32_t vmm_kern_alloc_one_page(uint32_t target);

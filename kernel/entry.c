@@ -9,64 +9,46 @@
 #include "user_task.h"
 #include "kern_log.h"
 #include "tss.h"
-void clear_screen();
-void kputc(char);
-void screen_uproll_once();
-extern TCB_t * cur_tcb;
-extern TCB_t main_TCB;
-int entry_test_a;
+#include "interrupt.h"
 void kern_entry(){
-	void func(void* args);
+    void func(void* args);
 	vga_init();
 	pmm_init();
-	printk("kern_pdt_paddr:0x%h\n",kern_dir_table_paddr);
-	tss_init();
-	printk("init\n");
-  //while (1);
-	idt_init();
-    //must close hardware interrupt because we have just user IRQ0(Number32/clock)
-//asm volatile("sti");
+    //vmm pre init must be invoked after pmm init,
+    // because pmm init will use mboot_struct
+    //which is located in virtual Mem below first 4MB.
+	vmm_pre_init();
+    vmm_init();
+    idt_init();
+    tss_init();
+    //careful!Close hardware interrupt because of that
+    // we have just use IRQ0(Number32/for clock)
 	threads_init();
-    //vga_basic_test();
-	vmm_init();
-    //vmm_test();
-    //bitmap_test();
-	//user_task_test();
+	//open hardware interrupt
+	sti();
+	//create user task for test.
 	start_user_task_params_t u1;
 	u1.fd = 0;
 	u1.is_from_file = False;
 	u1.function = func;
 	u1.args = (void*)NULL;
-	create_user_task(2,&u1);
-while (1){
-	 	asm volatile("cli");
-		//printk("Kernel Task / TID = 0\n");
-		asm volatile("sti");
-	}
-
-	// pm_alloc_t re = pmm_alloc_pages(1);
-	// printk("addr:0x%h,size:%d,state:%d\n",re.addr,re.size,(int)re.state);
-	// pmm_show_page_count();
-	threads_init();
-	//pmm需要在关中断的时候使用
-	
-	//create_thread(1,(thread_function *)func,0,vmm_kern_alloc(),1);
-    
-	asm volatile ("sti");   //要在主线程加载完后开中断
-	while(True){
-	 	asm volatile("cli");
-	 	printk("A");
-	 	asm volatile("sti");
-	}
-    while(True)
-     	asm volatile ("hlt");
+	//create_user_task(2,&u1);
+	create_kern_thread(1,func,NULL);
+	thread_block();
+    while (1) {
+    //main threads loop
+    //do nothing
+    }
 }
 
 void func(void* args){
+    TCB_t * probe =get_running_progress();
+    for(;probe->tid!=0;probe=probe->next){
+    }
+    thread_wakeup(probe);
 	while(True){
-		*((uint32_t*)0xF0000000)=0;
-		//asm volatile("cli");
-		//printk_color("B",15,0);
-		//asm volatile("sti");
+        bool condition =cli_condition();
+	    //printk("TASK1\n");
+        sti_condition(condition);
 	}
 }

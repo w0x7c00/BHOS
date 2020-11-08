@@ -6,12 +6,8 @@
 
 //初始化目标bitmap的内存区域
 void bitmap_init_mem(bitmap bm){
-    printk("bitmap init mem=%h,%h,%h\n",bm.target_addr_header,bm.vaddr_header,bm.length);
     uint32_t length = bm.length;
     uint32_t vaddr_header = bm.vaddr_header;
-//    for(uint32_t i = 0;i<length;i++){
-//        *((byte*)(vaddr_header+i)) = 255;   //11111111b
-//    }
     memset(vaddr_header,255,length);
 }
 
