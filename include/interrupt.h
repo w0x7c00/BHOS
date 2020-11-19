@@ -79,4 +79,6 @@ bool cli_condition();
 
 void sti_condition(bool condition);
 
+void register_interrupt(int int_no, int_server_func_t target_func);
+
 #endif

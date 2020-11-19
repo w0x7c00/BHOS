@@ -1,12 +1,11 @@
 #include "threads.h"
 #include "types.h"
-#include "pmm.h"
 #include "printk.h"
 #include "kern_log.h"
 #include "vmm.h"
 #include "user_task.h"
 #include "interrupt.h"
-#define TIME_CONT  2000 //默认时间片计数
+#define TIME_CONT  10 //默认时间片计数
 TCB_t main_TCB;    //内核主线程TCB
 TCB_t* cur_tcb;
 static char* LOG_SRC_THREADS = "THREADS";
@@ -174,8 +173,8 @@ void schedule(){
 void thread_block(){
     //cli and sti is used to sync to access the threads list and it`s node information
     TCB_t* now = get_running_progress();
-    now->task_status = TASK_BLOCKED;
     bool condition=cli_condition();
+    now->task_status = TASK_BLOCKED;
     schedule();
     //reload the interrupt flag before block
     sti_condition(condition);

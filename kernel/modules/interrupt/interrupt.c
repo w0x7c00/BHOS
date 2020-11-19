@@ -36,7 +36,8 @@ static void timer_init(uint32_t frequency){
     outb(0x40, hign);
 }
 
-static void registe_interrupt(int int_no,int_server_func_t target_func){
+//int handler list is a shared source , must change the value with lock
+void register_interrupt(int int_no, int_server_func_t target_func){
 	int_server_func_list[int_no] = target_func;
 }
 
@@ -54,7 +55,7 @@ void timer_server_func(uint32_t int_no,void *args){
 		(cur_tcb->time_counter)++;
 	}
 	else{
-        printk("Schedule!Running Task ID : %d,Kernel Task:%d\n",get_running_progress()->tid,get_running_progress()->is_kern_thread);
+        //printk("Schedule!Running Task ID : %d,Kernel Task:%d\n",get_running_progress()->tid,get_running_progress()->is_kern_thread);
 		schedule();
 	}
 }
@@ -109,6 +110,21 @@ void isr30();
 void isr31();
 
 void isr32();
+void isr33();
+void isr34();
+void isr35();
+void isr36();
+void isr37();
+void isr38();
+void isr39();
+void isr40();
+void isr41();
+void isr42();
+void isr43();
+void isr44();
+void isr45();
+void isr46();
+void isr47();
 
 void idt_init(){
 	_8259A_init();   //初始化中断控制器
@@ -145,42 +161,76 @@ void idt_init(){
 	set_int_disc(30,(uint32_t)isr30,kern_cs,default_inf);
 	set_int_disc(31,(uint32_t)isr31,kern_cs,default_inf);
 	set_int_disc(32,(uint32_t)isr32,kern_cs,default_inf);
-	registe_interrupt(0,default_server_func);
-	registe_interrupt(1,default_server_func);
-	registe_interrupt(2,default_server_func);
-	registe_interrupt(3,default_server_func);
-	registe_interrupt(4,default_server_func);
-	registe_interrupt(5,default_server_func);
-	registe_interrupt(6,default_server_func);
-	registe_interrupt(7,default_server_func);
-	registe_interrupt(8,default_server_func);
-	registe_interrupt(9,default_server_func);
-	registe_interrupt(10,default_server_func);
-	registe_interrupt(11,default_server_func);
-	registe_interrupt(12,default_server_func);
-	registe_interrupt(13,default_server_func);
-	registe_interrupt(14,default_server_func);
-	registe_interrupt(15,default_server_func);
-	registe_interrupt(16,default_server_func);
-	registe_interrupt(17,default_server_func);
-	registe_interrupt(18,default_server_func);
-	registe_interrupt(19,default_server_func);
-	registe_interrupt(20,default_server_func);
-	registe_interrupt(21,default_server_func);
-	registe_interrupt(22,default_server_func);
-	registe_interrupt(23,default_server_func);
-	registe_interrupt(24,default_server_func);
-	registe_interrupt(25,default_server_func);
-	registe_interrupt(26,default_server_func);
-	registe_interrupt(27,default_server_func);
-	registe_interrupt(28,default_server_func);
-	registe_interrupt(29,default_server_func);
-	registe_interrupt(30,default_server_func);
-	registe_interrupt(31,default_server_func);
-	//registe_interrupt(32,default_server_func);
-	
-	registe_interrupt(14,page_fault_func);
-	registe_interrupt(32,timer_server_func);
+    set_int_disc(33,(uint32_t)isr33,kern_cs,default_inf);
+    set_int_disc(34,(uint32_t)isr34,kern_cs,default_inf);
+    set_int_disc(35,(uint32_t)isr35,kern_cs,default_inf);
+    set_int_disc(36,(uint32_t)isr36,kern_cs,default_inf);
+    set_int_disc(37,(uint32_t)isr37,kern_cs,default_inf);
+    set_int_disc(38,(uint32_t)isr38,kern_cs,default_inf);
+    set_int_disc(39,(uint32_t)isr39,kern_cs,default_inf);
+    set_int_disc(40,(uint32_t)isr40,kern_cs,default_inf);
+    set_int_disc(41,(uint32_t)isr41,kern_cs,default_inf);
+    set_int_disc(42,(uint32_t)isr42,kern_cs,default_inf);
+    set_int_disc(43,(uint32_t)isr43,kern_cs,default_inf);
+    set_int_disc(44,(uint32_t)isr44,kern_cs,default_inf);
+    set_int_disc(45,(uint32_t)isr45,kern_cs,default_inf);
+    set_int_disc(46,(uint32_t)isr46,kern_cs,default_inf);
+    set_int_disc(47,(uint32_t)isr47,kern_cs,default_inf);
+
+
+    register_interrupt(0, default_server_func);
+    register_interrupt(1, default_server_func);
+    register_interrupt(2, default_server_func);
+    register_interrupt(3, default_server_func);
+    register_interrupt(4, default_server_func);
+    register_interrupt(5, default_server_func);
+    register_interrupt(6, default_server_func);
+    register_interrupt(7, default_server_func);
+    register_interrupt(8, default_server_func);
+    register_interrupt(9, default_server_func);
+    register_interrupt(10, default_server_func);
+    register_interrupt(11, default_server_func);
+    register_interrupt(12, default_server_func);
+    register_interrupt(13, default_server_func);
+    register_interrupt(14, default_server_func);
+    register_interrupt(15, default_server_func);
+    register_interrupt(16, default_server_func);
+    register_interrupt(17, default_server_func);
+    register_interrupt(18, default_server_func);
+    register_interrupt(19, default_server_func);
+    register_interrupt(20, default_server_func);
+    register_interrupt(21, default_server_func);
+    register_interrupt(22, default_server_func);
+    register_interrupt(23, default_server_func);
+    register_interrupt(24, default_server_func);
+    register_interrupt(25, default_server_func);
+    register_interrupt(26, default_server_func);
+    register_interrupt(27, default_server_func);
+    register_interrupt(28, default_server_func);
+    register_interrupt(29, default_server_func);
+    register_interrupt(30, default_server_func);
+    register_interrupt(31, default_server_func);
+	//register_interrupt(32,default_server_func);
+
+    register_interrupt(33, default_server_func);
+    register_interrupt(34, default_server_func);
+    register_interrupt(35, default_server_func);
+    register_interrupt(36, default_server_func);
+    register_interrupt(37, default_server_func);
+    register_interrupt(38, default_server_func);
+    register_interrupt(39, default_server_func);
+    register_interrupt(40, default_server_func);
+    register_interrupt(41, default_server_func);
+    register_interrupt(42, default_server_func);
+    register_interrupt(43, default_server_func);
+    register_interrupt(44, default_server_func);
+    register_interrupt(45, default_server_func);
+    register_interrupt(46, default_server_func);
+    register_interrupt(47, default_server_func);
+
+
+    register_interrupt(14, page_fault_func);
+    register_interrupt(32, timer_server_func);
 	lidt_target.limit = sizeof(interrupt_discripter_t)*256;
 	lidt_target.base = (uint32_t)&idt_entries;
 	timer_init(1000);

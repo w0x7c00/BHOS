@@ -2,7 +2,9 @@
 #include "printk.h"
 #include "vga_basic.h"
 #include "vargs.h"
-
+#include "sync.h"
+bool printk_lock_init_flag = False;
+lock_t printk_lock;
 
 void insert_str(char *inserted_str,char *inserting_str,uint32_t offset)  //插入辅助函数
 {
@@ -17,8 +19,11 @@ void insert_str(char *inserted_str,char *inserting_str,uint32_t offset)  //插�
 }
 
 void printk(char *input_str,...)
-{	
-	static char staticArry[100]={0};
+{
+    if(printk_lock_init_flag){
+        lock_acquire(&printk_lock);
+    }
+	char staticArry[100]={0};
 	char *output_str=staticArry;
 	strcpy(output_str,input_str);
 	va_list ptr;
@@ -76,6 +81,9 @@ void printk(char *input_str,...)
 	}
 	va_end(ptr);
 	kputs(output_str);
+    if(printk_lock_init_flag){
+        lock_release(&printk_lock);
+    }
 }
 
 
@@ -112,7 +120,10 @@ void printbasic(char *format_str,char *m)
 
 void printk_color(char *input_str,vga_color_t back,vga_color_t fore,...)
 {
-	static char staticArry[100]={0};
+    if(printk_lock_init_flag){
+        lock_acquire(&printk_lock);
+    }
+	char staticArry[100]={0};
 	char *output_str=staticArry;
 	strcpy(output_str,input_str);
 	va_list ptr;
@@ -170,9 +181,12 @@ void printk_color(char *input_str,vga_color_t back,vga_color_t fore,...)
 	}
 	va_end(ptr);
 	kputs_color(output_str,back,fore);
+    if(printk_lock_init_flag){
+        lock_release(&printk_lock);
+    }
 }
 
-void printkDebug(){
-	printk("wkawda----");
-	printk_color("wkdaowd",black,white);
+void printk_init_lock(){
+    lock_init(&printk_lock);
+    printk_lock_init_flag = True;
 }

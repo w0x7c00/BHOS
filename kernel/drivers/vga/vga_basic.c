@@ -2,6 +2,8 @@
 //2020/1/27
 #include "vga_basic.h"
 #include "port.h"
+#include "sync.h"
+
 static uint8_t tab_length=4;            //定义tab空格数
 // VGA 的显示缓冲的起点是 0xB8000
 static uint8_t *video_memory = (uint8_t *)0xC00B8000;
@@ -116,7 +118,6 @@ void kputs(char *input_str){
 
 void vga_init(){
 	clear_screen();
-
 }
 
 void vga_test_clear_last_row(){

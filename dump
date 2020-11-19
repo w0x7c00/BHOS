@@ -5718,7 +5718,7 @@ c0205fc7:	83 ec 08             	sub    $0x8,%esp
 c0205fca:	8d 83 a4 c9 ff ff    	lea    -0x365c(%ebx),%eax
 c0205fd0:	50                   	push   %eax
 c0205fd1:	6a 04                	push   $0x4
-c0205fd3:	e8 ad f9 ff ff       	call   c0205985 <registe_interrupt>
+c0205fd3:	e8 ad f9 ff ff       	call   c0205985 <register_interrupt>
 c0205fd8:	83 c4 10             	add    $0x10,%esp
 	registe_interrupt(5,default_server_func);
 c0205fdb:	83 ec 08             	sub    $0x8,%esp

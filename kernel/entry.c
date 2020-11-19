@@ -4,12 +4,15 @@
 #include "init.h"
 #include "pmm.h"
 #include "threads.h"
-#include "bitmap.h"
 #include "vmm.h"
 #include "user_task.h"
-#include "kern_log.h"
 #include "tss.h"
 #include "interrupt.h"
+#include "sync.h"
+
+#include "keyboard.h"
+lock_t lock;
+sem_t sem;
 void kern_entry(){
     void func(void* args);
 	vga_init();
@@ -24,6 +27,8 @@ void kern_entry(){
     //careful!Close hardware interrupt because of that
     // we have just use IRQ0(Number32/for clock)
 	threads_init();
+    printk_init_lock();
+    keyboard_init();
 	//open hardware interrupt
 	sti();
 	//create user task for test.
@@ -32,23 +37,28 @@ void kern_entry(){
 	u1.is_from_file = False;
 	u1.function = func;
 	u1.args = (void*)NULL;
+	lock_init(&lock);
+	sem_init(&sem,2);
 	//create_user_task(2,&u1);
 	create_kern_thread(1,func,NULL);
-	thread_block();
-    while (1) {
-    //main threads loop
-    //do nothing
+
+    uint32_t  func_addr=(uint32_t)func;
+
+    printk("0x%h\n",func_addr);
+    while (1);
+    for(int i = 0;i>=0;i++) {
+        printk("TASK1\n");
     }
+    while (1);
 }
 
 void func(void* args){
-    TCB_t * probe =get_running_progress();
-    for(;probe->tid!=0;probe=probe->next){
+    while (1);
+
+    for(int i = 0;i>=0;i++) {
+        printk("TASK2\n");
     }
-    thread_wakeup(probe);
-	while(True){
-        bool condition =cli_condition();
-	    //printk("TASK1\n");
-        sti_condition(condition);
-	}
+    while(True){
+
+    }
 }

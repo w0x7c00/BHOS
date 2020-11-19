@@ -12,4 +12,5 @@ void printk_color(char *format_str,vga_color_t back, vga_color_t fore,...);
 
 void insert_str(char *inserted_str,char *inserting_str,uint32_t offset);
 
+void printk_init_lock();
 #endif
